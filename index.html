@@ -366,9 +366,9 @@
 
             <!-- Dettaglio e Form -->
             <div class="panel">
-                <div style="display:flex;gap:10px;margin-bottom:20px;">
+                <div id="tabSwitcher" style="display:flex;gap:10px;margin-bottom:20px;">
                     <button class="btn" onclick="cambiaTab('dettaglio')">📌 Dettaglio</button>
-                    <button class="btn" onclick="cambiaTab('form')">✏️ Nuovo</button>
+                    <button class="btn" id="btnNuovoTab" onclick="cambiaTab('form')">✏️ Nuovo</button>
                 </div>
 
                 <!-- Tab Dettaglio -->
@@ -958,7 +958,7 @@
 // CONFIGURAZIONE GOOGLE SHEETS
 // ► Sostituisci con l'URL della tua Web App Google Apps Script
 // ════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydgSaid4j8rCPtfv3IQ8HKJmISX9sNHtCWXPSlNi0OE6G2pehsfUYkyplpOXP4V36E/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxn_XwV8WJoUq9p9qjyU3z6QOxMndLh8o17K-5v4rPhh7RgtDTcIEI9v6E2EPsMf_HVVw/exec';
 
 // ════════════════════════════════════════════════════════════
 // STATO APPLICAZIONE
@@ -1157,25 +1157,29 @@ function applicaPermessi() {
     const btnReport = document.getElementById('btnReportAnnuale');
     if (btnReport) btnReport.style.display = isAdmin ? 'block' : 'none';
 
-    // Pulsanti admin-only nel menu sinistri
+    // ── Menu sinistri: user vede solo Statistiche, Stampa, Esporta ──
     const menuItems = document.querySelectorAll('.menu-grid .menu-item');
-    // Per user: nascondi Archivia (indice 3)
-    if (!isAdmin) {
-        menuItems.forEach((item, i) => {
-            if (i === 3) item.style.display = 'none'; // Archivia
-        });
-    }
+    // Indici: 0=Nuovo, 1=Medico, 2=Nota, 3=Archivia, 4=Statistiche, 5=Stampa, 6=Esporta
+    const soloAdmin = [0, 1, 2, 3]; // nascosti allo user
+    menuItems.forEach((item, i) => {
+        if (!isAdmin && soloAdmin.includes(i)) {
+            item.style.display = 'none';
+        } else {
+            item.style.display = '';
+        }
+    });
 
-    // Selettore struttura: user vede solo la sua (nascosto), admin lo vede sempre
-    if (!isAdmin) {
-        document.querySelector('.struttura-selector').style.display = 'none';
-    } else {
-        document.querySelector('.struttura-selector').style.display = 'flex';
-    }
+    // ── Selettore struttura: solo admin ──
+    document.querySelector('.struttura-selector').style.display = isAdmin ? 'flex' : 'none';
 
-    // Pulsante Nuova Struttura solo admin
-    const btnNuovaStruttura = document.querySelector('.struttura-selector .btn-success');
-    if (btnNuovaStruttura && !isAdmin) btnNuovaStruttura.style.display = 'none';
+    // ── Tab form: user non può aprire i form di scrittura ──
+    // Blocchiamo il pulsante "✏️ Nuovo" nel pannello dettaglio/form
+    const btnNuovoTab = document.querySelector('#tabSinistri .panel .btn:last-child');
+    if (btnNuovoTab && !isAdmin) btnNuovoTab.style.display = 'none';
+
+    // Nascondi pulsante "✏️ Nuovo" tab per user
+    const btnNuovoTab = document.getElementById('btnNuovoTab');
+    if (btnNuovoTab) btnNuovoTab.style.display = isAdmin ? 'inline-block' : 'none';
 }
 
 // ════════════════════════════════════════════════════════════
@@ -1988,11 +1992,18 @@ function cambiaMainTab(tab) {
 }
 
 function cambiaTab(tab) {
+    // User non può accedere al tab form
+    if (tab === 'form' && utenteCorrente?.ruolo === 'user') return;
     document.getElementById('tabDettaglio').style.display = tab === 'dettaglio' ? 'block' : 'none';
     document.getElementById('tabForm').style.display = tab === 'form' ? 'block' : 'none';
 }
 
 function mostraForm(tipo) {
+    // User non può aprire nessun form di scrittura
+    if (utenteCorrente?.ruolo === 'user') {
+        alert('Non hai i permessi per questa operazione');
+        return;
+    }
     esciDaModifica();
     document.querySelectorAll('[id^="form"]').forEach(f => f.style.display = 'none');
     const id = 'form' + tipo.charAt(0).toUpperCase() + tipo.slice(1);
