@@ -989,7 +989,7 @@
 // CONFIGURAZIONE GOOGLE SHEETS
 // ► Sostituisci con l'URL della tua Web App Google Apps Script
 // ════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWJrqKt3FFLNBoagfSVYDP9nIyi4IZORPYsBgn73fY-G-9x2RypOE-8CkVfCoO9-2XDg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2T2wYnsRSSpuvvlFnPx1F3kRelO34GCvhkJwbixjPSux0imPWLkZXeH93TPlWPFrbHQ/exec';
 
 // ════════════════════════════════════════════════════════════
 // STATO APPLICAZIONE
@@ -2083,7 +2083,7 @@ function aggiornaListaSinistri() {
     tbody.innerHTML = '';
 
     const sinFiltrati = s.sinistri.filter(sin => {
-        const anno    = (sin.data_apertura || sin.data_evento || '').substring(0, 4);
+        const anno    = (sin.data_evento || '').substring(0, 4);
         const cognome = (sin.paziente.cognome || '').toLowerCase();
         const nome    = (sin.paziente.nome    || '').toLowerCase();
         const rep     = sin.reparto === 'altro' && sin.repartoAltro ? sin.repartoAltro : sin.reparto;
@@ -2129,7 +2129,7 @@ function popolaFiltri() {
 
     // Anno
     const anni = [...new Set(s.sinistri
-        .map(sin => (sin.data_apertura || sin.data_evento || '').substring(0, 4))
+        .map(sin => (sin.data_evento || '').substring(0, 4))
         .filter(a => a && a !== ''))
     ].sort((a, b) => b.localeCompare(a));
 
