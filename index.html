@@ -352,8 +352,39 @@
             <div class="panel">
                 <h2>📋 Sinistri</h2>
                 <div class="info-message">👆 Clicca su un sinistro per selezionarlo</div>
-                <input type="text" id="cerca" placeholder="Cerca..." style="width:100%;padding:10px;margin-bottom:15px;border:2px solid #e0e0e0;border-radius:8px;">
-                <div style="max-height:500px;overflow-y:auto;">
+
+                <!-- Maschera di ricerca avanzata -->
+                <div style="background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid #e0e0e0;">
+                    <div style="font-size:12px;font-weight:600;color:#7f8c8d;margin-bottom:8px;">🔍 RICERCA</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;">
+                        <div>
+                            <label style="font-size:11px;font-weight:600;color:#34495e;display:block;margin-bottom:3px;">Anno</label>
+                            <select id="filtroAnno" onchange="aggiornaListaSinistri()" style="width:100%;padding:8px;border:2px solid #e0e0e0;border-radius:6px;font-size:13px;">
+                                <option value="">Tutti</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size:11px;font-weight:600;color:#34495e;display:block;margin-bottom:3px;">Cognome</label>
+                            <input type="text" id="filtroCognome" placeholder="Cerca cognome..." oninput="aggiornaListaSinistri()" style="width:100%;padding:8px;border:2px solid #e0e0e0;border-radius:6px;font-size:13px;">
+                        </div>
+                        <div>
+                            <label style="font-size:11px;font-weight:600;color:#34495e;display:block;margin-bottom:3px;">Reparto</label>
+                            <select id="filtroReparto" onchange="aggiornaListaSinistri()" style="width:100%;padding:8px;border:2px solid #e0e0e0;border-radius:6px;font-size:13px;">
+                                <option value="">Tutti</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn btn-warning" onclick="resetFiltri()" style="padding:8px 14px;font-size:12px;white-space:nowrap;">✖ Reset</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <label style="font-size:11px;font-weight:600;color:#34495e;display:block;margin-bottom:3px;">Ricerca libera</label>
+                        <input type="text" id="cerca" placeholder="Cerca per protocollo, nome, cognome..." oninput="aggiornaListaSinistri()" style="width:100%;padding:8px;border:2px solid #e0e0e0;border-radius:6px;font-size:13px;">
+                    </div>
+                    <div id="risultatiRicerca" style="font-size:11px;color:#7f8c8d;margin-top:6px;text-align:right;"></div>
+                </div>
+
+                <div style="max-height:450px;overflow-y:auto;">
                     <table class="sinistri-table">
                         <thead><tr><th>Protocollo</th><th>Paziente</th><th>Data</th><th>Reparto</th><th>Valutato</th><th>Stato</th></tr></thead>
                         <tbody id="listaSinistri"></tbody>
@@ -958,7 +989,7 @@
 // CONFIGURAZIONE GOOGLE SHEETS
 // ► Sostituisci con l'URL della tua Web App Google Apps Script
 // ════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxaoQFuKAA3QlXmF33FnUBqJHIrDfLZdMIxLxWBJ7DXZU0vMYWVYVrz_lHB9yV5lxI_pg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWJrqKt3FFLNBoagfSVYDP9nIyi4IZORPYsBgn73fY-G-9x2RypOE-8CkVfCoO9-2XDg/exec';
 
 // ════════════════════════════════════════════════════════════
 // STATO APPLICAZIONE
@@ -1822,6 +1853,7 @@ function salvaDati() {
     aggiornaSelettore();
     if (strutturaCorrente) {
         aggiornaInfoStruttura();
+        popolaFiltri();
         aggiornaListaSinistri();
         aggiornaStatisticheGenerali();
         aggiornaStatisticheReparti();
@@ -1865,6 +1897,7 @@ function cambiaStruttura() {
     document.querySelectorAll('.main-tab')[0].classList.add('active');
     aggiornaInfoStruttura();
     aggiornaListaSinistri();
+    popolaFiltri();
     aggiornaStatisticheGenerali();
     aggiornaStatisticheReparti();
     caricaDatiCVS();
@@ -2038,18 +2071,43 @@ function selezionaSinistro(protocollo) {
 
 function aggiornaListaSinistri() {
     if (!strutturaCorrente) return;
-    const tbody = document.getElementById('listaSinistri');
-    const s     = strutture[strutturaCorrente];
-    const search = (document.getElementById('cerca').value || '').toLowerCase();
-    const isUser = utenteCorrente?.ruolo === 'user';
+    const tbody  = document.getElementById('listaSinistri');
+    const s      = strutture[strutturaCorrente];
+
+    // Leggi filtri
+    const search        = (document.getElementById('cerca')?.value        || '').toLowerCase().trim();
+    const filtroAnno    = (document.getElementById('filtroAnno')?.value    || '').trim();
+    const filtroCognome = (document.getElementById('filtroCognome')?.value || '').toLowerCase().trim();
+    const filtroReparto = (document.getElementById('filtroReparto')?.value || '').trim();
 
     tbody.innerHTML = '';
-    s.sinistri.filter(sin =>
-        sin.numero_protocollo.toLowerCase().includes(search) ||
-        sin.paziente.cognome.toLowerCase().includes(search) ||
-        sin.paziente.nome.toLowerCase().includes(search)
-    ).forEach(sin => {
-        const tr = document.createElement('tr');
+
+    const sinFiltrati = s.sinistri.filter(sin => {
+        const anno    = (sin.data_apertura || sin.data_evento || '').substring(0, 4);
+        const cognome = (sin.paziente.cognome || '').toLowerCase();
+        const nome    = (sin.paziente.nome    || '').toLowerCase();
+        const rep     = sin.reparto === 'altro' && sin.repartoAltro ? sin.repartoAltro : sin.reparto;
+        const prot    = (sin.numero_protocollo || '').toLowerCase();
+
+        const okAnno    = !filtroAnno    || anno === filtroAnno;
+        const okCognome = !filtroCognome || cognome.includes(filtroCognome);
+        const okReparto = !filtroReparto || rep === filtroReparto;
+        const okSearch  = !search        || prot.includes(search) || cognome.includes(search) || nome.includes(search);
+
+        return okAnno && okCognome && okReparto && okSearch;
+    });
+
+    // Aggiorna contatore risultati
+    const resEl = document.getElementById('risultatiRicerca');
+    if (resEl) {
+        const totale = s.sinistri.length;
+        resEl.textContent = sinFiltrati.length === totale
+            ? `${totale} sinistri totali`
+            : `${sinFiltrati.length} di ${totale} sinistri`;
+    }
+
+    sinFiltrati.forEach(sin => {
+        const tr  = document.createElement('tr');
         if (sinistroSelezionatoLista === sin.numero_protocollo) tr.classList.add('selected');
         tr.onclick = () => { selezionaSinistro(sin.numero_protocollo); mostraDettaglio(sin.numero_protocollo); };
         const rep = sin.reparto === 'altro' && sin.repartoAltro ? sin.repartoAltro : sin.reparto;
@@ -2062,6 +2120,48 @@ function aggiornaListaSinistri() {
             <td><span class="badge ${sin.esito === 'in_corso' ? 'badge-open' : 'badge-closed'}">${sin.esito}</span></td>`;
         tbody.appendChild(tr);
     });
+}
+
+// Popola i select Anno e Reparto con i valori presenti nei sinistri
+function popolaFiltri() {
+    if (!strutturaCorrente) return;
+    const s = strutture[strutturaCorrente];
+
+    // Anno
+    const anni = [...new Set(s.sinistri
+        .map(sin => (sin.data_apertura || sin.data_evento || '').substring(0, 4))
+        .filter(a => a && a !== ''))
+    ].sort((a, b) => b.localeCompare(a));
+
+    const selAnno = document.getElementById('filtroAnno');
+    if (selAnno) {
+        const curr = selAnno.value;
+        selAnno.innerHTML = '<option value="">Tutti gli anni</option>' +
+            anni.map(a => `<option value="${a}" ${a === curr ? 'selected' : ''}>${a}</option>`).join('');
+    }
+
+    // Reparto
+    const reparti = [...new Set(s.sinistri
+        .map(sin => sin.reparto === 'altro' && sin.repartoAltro ? sin.repartoAltro : sin.reparto)
+        .filter(r => r && r !== ''))
+    ].sort();
+
+    const selRep = document.getElementById('filtroReparto');
+    if (selRep) {
+        const curr = selRep.value;
+        selRep.innerHTML = '<option value="">Tutti i reparti</option>' +
+            reparti.map(r => `<option value="${r}" ${r === curr ? 'selected' : ''}>${r}</option>`).join('');
+    }
+}
+
+// Reset tutti i filtri
+function resetFiltri() {
+    const ids = ['filtroAnno', 'filtroCognome', 'filtroReparto', 'cerca'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    aggiornaListaSinistri();
 }
 
 // ════════════════════════════════════════════════════════════
