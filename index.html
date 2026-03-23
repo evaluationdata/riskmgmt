@@ -345,6 +345,7 @@
             <div class="menu-item" onclick="stampaModulo()">🖨️ Stampa</div>
             <div class="menu-item" onclick="esportaCSV()">📥 Esporta</div>
             <div class="menu-item admin-report" id="btnReportAnnuale" onclick="apriReportAnnuale()" style="display:none;background:linear-gradient(135deg,#2c3e50,#3498db);color:white;">📊 Report Annuale</div>
+            <div class="menu-item" onclick="verificaAlertGelli()" style="background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;">⚖️ Alert Art.13</div>
         </div>
 
         <div id="content" class="content-area">
@@ -981,6 +982,28 @@
     </div>
 </div>
 
+<!-- ═══════════ MODAL ALERT GELLI ART.13 ═══════════ -->
+<div id="modalAlertGelli" class="modal">
+    <div class="modal-content" style="max-width:700px;">
+        <div class="modal-header" style="border-bottom-color:#e74c3c;">
+            <div>
+                <h3 style="color:#c0392b;">⚠️ Alert Art. 13 L. 24/2017 — Comunicazione al Medico</h3>
+                <p style="font-size:12px;color:#7f8c8d;margin-top:4px;">
+                    Obbligo di comunicazione al medico responsabile entro <strong>45 giorni</strong> dalla data di richiesta danni
+                </p>
+            </div>
+            <span class="close" onclick="chiudiAlertGelli()">&times;</span>
+        </div>
+        <div id="alertGelliContenuto" style="max-height:400px;overflow-y:auto;padding:5px 0;"></div>
+        <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;">
+            <p style="font-size:11px;color:#7f8c8d;">
+                📋 Rif. Art. 13 L. 24/2017 — Legge Gelli-Bianco
+            </p>
+            <button class="btn" onclick="chiudiAlertGelli()">Ho preso visione</button>
+        </div>
+    </div>
+</div>
+
 <!-- Edit mode indicator -->
 <div id="editModeIndicator" class="edit-mode-indicator">✏️ Modalità modifica attiva</div>
 
@@ -989,7 +1012,7 @@
 // CONFIGURAZIONE GOOGLE SHEETS
 // ► Sostituisci con l'URL della tua Web App Google Apps Script
 // ════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2T2wYnsRSSpuvvlFnPx1F3kRelO34GCvhkJwbixjPSux0imPWLkZXeH93TPlWPFrbHQ/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1V6jZ8HajQuWoCFYhAHzV4BJGxLyLuot0uqR6s_xqno50sqVaAilsdVXv5TXea4iacA/exec';
 
 // ════════════════════════════════════════════════════════════
 // STATO APPLICAZIONE
@@ -1904,6 +1927,8 @@ function cambiaStruttura() {
     aggiornaCalendario();
     esciDaModifica();
     caricaSinistriDaSheet();
+    // Verifica alert Gelli dopo breve attesa (lascia tempo al caricamento)
+    setTimeout(verificaAlertGelli, 1500);
 }
 
 function aggiornaInfoStruttura() {
@@ -2162,6 +2187,128 @@ function resetFiltri() {
         if (el) el.value = '';
     });
     aggiornaListaSinistri();
+}
+
+// ════════════════════════════════════════════════════════════
+// ALERT ART. 13 L. 24/2017 — LEGGE GELLI
+// Obbligo comunicazione al medico entro 45 gg dalla richiesta danni
+// ════════════════════════════════════════════════════════════
+function verificaAlertGelli() {
+    if (!strutturaCorrente) return;
+    const s       = strutture[strutturaCorrente];
+    const oggi    = new Date();
+    oggi.setHours(0, 0, 0, 0);
+    const LIMITE  = 45;  // giorni dalla data richiesta
+    const PREAVVISO = 15; // giorni di anticipo per alert
+
+    const sinistriAlert = [];
+
+    s.sinistri.forEach(sin => {
+        // Considera solo sinistri aperti con data richiesta valorizzata
+        if (sin.esito !== 'in_corso') return;
+        if (!sin.data_richiesta) return;
+
+        const dataRichiesta = new Date(sin.data_richiesta);
+        if (isNaN(dataRichiesta)) return;
+
+        const scadenza = new Date(dataRichiesta);
+        scadenza.setDate(scadenza.getDate() + LIMITE);
+        scadenza.setHours(0, 0, 0, 0);
+
+        const giorniAllaScadenza = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+        const giorniDallaRichiesta = Math.ceil((oggi - dataRichiesta) / (1000 * 60 * 60 * 24));
+
+        // Mostra se scaduto O in scadenza entro 15 giorni
+        if (giorniAllaScadenza <= PREAVVISO) {
+            sinistriAlert.push({
+                sin,
+                scadenza,
+                giorniAllaScadenza,
+                giorniDallaRichiesta,
+                scaduto: giorniAllaScadenza < 0
+            });
+        }
+    });
+
+    if (sinistriAlert.length === 0) return;
+
+    // Ordina: prima i scaduti, poi per scadenza imminente
+    sinistriAlert.sort((a, b) => a.giorniAllaScadenza - b.giorniAllaScadenza);
+
+    // Costruisci il contenuto del modal
+    const contenuto = sinistriAlert.map(item => {
+        const sin  = item.sin;
+        const rep  = sin.reparto === 'altro' && sin.repartoAltro ? sin.repartoAltro : sin.reparto;
+        const scadenzaStr = item.scadenza.toLocaleDateString('it-IT');
+        const richiestaStr = new Date(sin.data_richiesta).toLocaleDateString('it-IT');
+
+        let statoColor, statoLabel, statoIcon;
+        if (item.scaduto) {
+            statoColor = '#e74c3c';
+            statoLabel = `SCADUTO di ${Math.abs(item.giorniAllaScadenza)} giorni`;
+            statoIcon  = '🔴';
+        } else if (item.giorniAllaScadenza <= 7) {
+            statoColor = '#e67e22';
+            statoLabel = `Scade tra ${item.giorniAllaScadenza} giorni`;
+            statoIcon  = '🟠';
+        } else {
+            statoColor = '#f39c12';
+            statoLabel = `Scade tra ${item.giorniAllaScadenza} giorni`;
+            statoIcon  = '🟡';
+        }
+
+        return `
+        <div style="background:#fff8f8;border:1px solid ${statoColor};border-left:5px solid ${statoColor};border-radius:8px;padding:14px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
+                <div>
+                    <div style="font-weight:700;color:#2c3e50;font-size:14px;">
+                        ${statoIcon} ${sin.paziente.cognome} ${sin.paziente.nome}
+                        <span style="font-weight:400;color:#7f8c8d;font-size:12px;margin-left:8px;">${sin.numero_protocollo}</span>
+                    </div>
+                    <div style="font-size:12px;color:#555;margin-top:5px;">
+                        📍 <strong>Reparto:</strong> ${rep || '-'} &nbsp;|&nbsp;
+                        👨‍⚕️ <strong>Medico:</strong> ${sin.medico || '<span style="color:#e74c3c">Non assegnato</span>'}
+                    </div>
+                    <div style="font-size:12px;color:#555;margin-top:3px;">
+                        📅 <strong>Data richiesta:</strong> ${richiestaStr} &nbsp;|&nbsp;
+                        ⏰ <strong>Scadenza 45gg:</strong> ${scadenzaStr}
+                    </div>
+                </div>
+                <div style="background:${statoColor};color:white;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;">
+                    ${statoLabel}
+                </div>
+            </div>
+            <div style="margin-top:8px;background:#fff3cd;border-radius:5px;padding:7px 10px;font-size:11px;color:#856404;">
+                ⚖️ <strong>Art. 13 L. 24/2017:</strong> La struttura deve comunicare al medico l'avvio del procedimento entro 45 giorni dalla ricezione della richiesta di risarcimento.
+            </div>
+        </div>`;
+    }).join('');
+
+    const scadutiCount   = sinistriAlert.filter(x => x.scaduto).length;
+    const imminentiCount = sinistriAlert.filter(x => !x.scaduto).length;
+
+    document.getElementById('alertGelliContenuto').innerHTML = `
+        <div style="background:#fdf0f0;border-radius:8px;padding:12px;margin-bottom:15px;display:flex;gap:20px;flex-wrap:wrap;">
+            <div style="text-align:center;">
+                <div style="font-size:24px;font-weight:700;color:#e74c3c;">${scadutiCount}</div>
+                <div style="font-size:11px;color:#7f8c8d;">Scaduti</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:24px;font-weight:700;color:#f39c12;">${imminentiCount}</div>
+                <div style="font-size:11px;color:#7f8c8d;">In scadenza entro 15gg</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:24px;font-weight:700;color:#2c3e50;">${sinistriAlert.length}</div>
+                <div style="font-size:11px;color:#7f8c8d;">Totale da gestire</div>
+            </div>
+        </div>
+        ${contenuto}`;
+
+    document.getElementById('modalAlertGelli').classList.add('active');
+}
+
+function chiudiAlertGelli() {
+    document.getElementById('modalAlertGelli').classList.remove('active');
 }
 
 // ════════════════════════════════════════════════════════════
