@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Sinistri Sanitari - D.M. 232/2023</title>
     <style>
-        /* ===== STILI COMPLETI (mantenuti dall'originale) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,7 +14,6 @@
         }
         .container { max-width: 1400px; margin: 0 auto; }
 
-        /* Header */
         .header {
             background: white;
             border-radius: 15px;
@@ -25,7 +23,6 @@
         }
         .header h1 { color: #2c3e50; font-size: 24px; margin-bottom: 15px; }
 
-        /* Selettore struttura */
         .struttura-selector {
             display: flex; gap: 15px; align-items: center; flex-wrap: wrap;
             background: #f8f9fa; padding: 15px; border-radius: 10px;
@@ -44,9 +41,7 @@
         .btn-success { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
         .btn-danger  { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); }
         .btn-warning { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); }
-        .btn-edit    { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); padding: 5px 10px; font-size: 12px; margin-left: 10px; }
 
-        /* Info struttura */
         .struttura-info {
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: white; padding: 15px; border-radius: 10px;
@@ -58,10 +53,8 @@
             border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px;
             border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600;
         }
-        .delete-structure-btn:hover { background: rgba(231,76,60,0.9); }
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 10px; font-size: 13px; }
 
-        /* Tabs */
         .main-tabs {
             display: flex; gap: 10px; margin: 20px 0;
             border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;
@@ -75,7 +68,6 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Menu sinistri */
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .menu-item {
             background: white; padding: 15px; border-radius: 10px;
@@ -84,7 +76,6 @@
         }
         .menu-item:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
 
-        /* Content area */
         .content-area { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .panel {
             background: white; border-radius: 15px; padding: 20px;
@@ -92,60 +83,43 @@
         }
         .panel h2 { color: #2c3e50; font-size: 18px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ecf0f1; }
 
-        /* Form */
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; color: #34495e; font-weight: 600; font-size: 13px; }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;
         }
-        .form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .form-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
 
-        /* Legal section */
         .legal-section { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #e74c3c; }
         .legal-section h4 { color: #c0392b; margin-bottom: 10px; font-size: 14px; }
-        .legal-section.purple { border-left-color: #9b59b6; }
-        .legal-section.purple h4 { color: #8e44ad; }
-        .legal-section.teal { border-left-color: #1abc9c; }
-        .legal-section.teal h4 { color: #16a085; }
         .legal-section.insurance { border-left-color: #3498db; }
         .legal-section.insurance h4 { color: #2980b9; }
+        .legal-section.purple { border-left-color: #9b59b6; }
 
-        /* Tabella */
         .sinistri-table { width: 100%; border-collapse: collapse; }
         .sinistri-table th { background: #f8f9fa; padding: 10px; text-align: left; font-size: 12px; }
-        .sinistri-table td { padding: 10px; border-bottom: 1px solid #ecf0f1; font-size: 13px; }
-        .sinistri-table tr { cursor: pointer; transition: background 0.2s; }
+        .sinistri-table td { padding: 10px; border-bottom: 1px solid #ecf0f1; font-size: 13px; cursor: pointer; }
         .sinistri-table tr:hover { background: #e3f2fd; }
-        .sinistri-table tr.selected { background: #bbdefb; font-weight: 500; }
 
-        /* Badge */
         .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-block; }
-        .badge-open    { background: #d4edda; color: #155724; }
-        .badge-closed  { background: #f8d7da; color: #721c24; }
-        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-open { background: #d4edda; color: #155724; }
+        .badge-closed { background: #f8d7da; color: #721c24; }
         .badge-success { background: #d4edda; color: #155724; }
         .badge-warning { background: #fff3cd; color: #856404; }
-        .badge-info    { background: #d1ecf1; color: #0c5460; }
 
-        /* Dettaglio */
         .detail-card { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3498db; }
-        .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .detail-header h4 { color: #2c3e50; margin: 0; }
         .detail-row { display: flex; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #dee2e6; }
         .detail-label { font-weight: 600; width: 200px; color: #7f8c8d; font-size: 12px; }
         .detail-value { flex: 1; color: #2c3e50; }
-        .last-update { font-size: 11px; color: #7f8c8d; text-align: right; margin-top: 10px; font-style: italic; }
 
-        /* CVS Section */
         .cvs-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
         .cvs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
         .cvs-card { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); }
         .cvs-card h4 { color: #ffd700; margin-bottom: 10px; font-size: 16px; }
         .cvs-card .form-group input { background: white; color: #2c3e50; border-color: #ccc; border-radius: 8px; }
 
-        /* Calendario */
-        .calendar-section { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .calendar-section { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 20px; }
         .calendar-day-header { text-align: center; font-weight: 600; color: #7f8c8d; font-size: 12px; padding: 10px; }
@@ -157,50 +131,30 @@
         .riunione-item { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #3498db; }
         .riunione-item.past { opacity: 0.6; border-left-color: #95a5a6; }
         .riunione-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600; }
-        .riunione-data { color: #3498db; }
-        .riunione-tipo { background: #3498db; color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; }
 
-        /* Statistiche Reparti */
         .reparti-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
         .reparto-card { background: white; border-radius: 10px; padding: 15px; border-left: 4px solid #3498db; }
-        .reparto-header { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; }
-        .reparto-nome { font-weight: 600; color: #2c3e50; font-size: 14px; }
-        .reparto-totale { background: #3498db; color: white; padding: 3px 10px; border-radius: 15px; font-size: 12px; font-weight: 600; }
-        .reparto-stat { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; }
-        .reparto-stat-label { color: #7f8c8d; }
-        .reparto-stat-value { font-weight: 600; color: #2c3e50; }
-        .reparto-stat-value.highlight { color: #e74c3c; }
+        .reparto-header { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #e0e0e0; }
+        .reparto-nome { font-weight: 600; }
+        .reparto-totale { background: #3498db; color: white; padding: 3px 10px; border-radius: 15px; font-size: 12px; }
 
-        /* Status Bar */
         .status-bar {
             background: #f8f9fa; padding: 15px 20px; border-radius: 10px; margin: 15px 0;
             display: flex; justify-content: space-between; align-items: center;
             flex-wrap: wrap; gap: 15px; border-left: 4px solid #3498db;
         }
-        .status-online  { color: #27ae60; font-weight: 600; }
+        .status-online { color: #27ae60; font-weight: 600; }
         .status-offline { color: #e74c3c; font-weight: 600; }
-        .badge-count { background: #3498db; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; }
 
-        .info-message    { background: #e3f2fd; color: #0c5460; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 13px; border-left: 3px solid #3498db; }
-        .warning-message { background: #fdf7e3; border: 1px solid #f1c40f; color: #7d5d0a; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 14px; }
-        .danger-message  { background: #fbe9e7; border: 1px solid #e74c3c; color: #c0392b; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 14px; }
-
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 25px; border-radius: 15px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #ecf0f1; }
-        .modal-header h3 { color: #2c3e50; }
-        .modal-header.warning { border-bottom-color: #e74c3c; }
-        .modal-header.warning h3 { color: #c0392b; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #ecf0f1; }
         .close { font-size: 24px; cursor: pointer; color: #7f8c8d; }
         .modal-actions { display: flex; gap: 15px; margin-top: 25px; }
-        .modal-actions button { flex: 1; padding: 12px; }
 
         .no-struttura { text-align: center; padding: 60px; background: white; border-radius: 15px; }
-        .edit-mode-indicator { position: fixed; bottom: 20px; right: 20px; background: #f39c12; color: white; padding: 10px 20px; border-radius: 30px; display: none; z-index: 100; }
 
-        /* Login Overlay */
         #loginOverlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
@@ -212,29 +166,21 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
         }
-        .login-box h2 { color: #2c3e50; margin-bottom: 8px; font-size: 22px; }
-        .login-box p  { color: #7f8c8d; margin-bottom: 30px; font-size: 14px; }
+        .login-box h2 { color: #2c3e50; margin-bottom: 8px; }
         .login-box .form-group { text-align: left; margin-bottom: 18px; }
-        .login-box .form-group label { font-size: 13px; font-weight: 600; color: #34495e; }
-        .login-box .form-group input { width:100%; padding:12px; border:2px solid #e0e0e0; border-radius:8px; font-size:15px; margin-top:5px; }
-        .login-box .form-group input:focus { border-color:#3498db; outline:none; }
-        .login-error { background:#fbe9e7; color:#c0392b; padding:10px; border-radius:8px; margin-bottom:15px; font-size:13px; display:none; }
+        .login-box .form-group input { width:100%; padding:12px; border:2px solid #e0e0e0; border-radius:8px; margin-top:5px; }
+        .login-error { background:#fbe9e7; color:#c0392b; padding:10px; border-radius:8px; margin-bottom:15px; display:none; }
         .login-btn { width:100%; padding:14px; background:linear-gradient(135deg,#3498db,#2980b9); color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; }
-        .login-btn:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(52,152,219,0.3); }
 
-        /* User bar */
         .user-bar {
             display: flex; justify-content: space-between; align-items: center;
             background: #2c3e50; color: white; padding: 8px 20px;
-            border-radius: 10px; margin-bottom: 15px; font-size: 13px;
+            border-radius: 10px; margin-bottom: 15px;
         }
-        .user-bar .user-info { display:flex; align-items:center; gap:10px; }
-        .user-badge-admin { background:#e74c3c; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; }
-        .user-badge-user  { background:#27ae60; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; }
-        .logout-btn { background:rgba(255,255,255,0.15); color:white; border:1px solid rgba(255,255,255,0.3); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:12px; font-weight:600; }
-        .logout-btn:hover { background:rgba(231,76,60,0.8); }
+        .user-badge-admin { background:#e74c3c; padding:3px 10px; border-radius:12px; font-size:11px; }
+        .user-badge-user { background:#27ae60; padding:3px 10px; border-radius:12px; font-size:11px; }
+        .logout-btn { background:rgba(255,255,255,0.15); padding:6px 14px; border-radius:8px; cursor:pointer; }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .content-area { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
@@ -243,7 +189,7 @@
 </head>
 <body>
 
-<!-- LOGIN OVERLAY -->
+<!-- LOGIN -->
 <div id="loginOverlay">
     <div class="login-box">
         <h2>🏥 Gestione Sinistri</h2>
@@ -251,56 +197,38 @@
         <div id="loginError" class="login-error"></div>
         <div class="form-group">
             <label>Username</label>
-            <input type="text" id="loginUsername" placeholder="Inserisci username" autocomplete="username">
+            <input type="text" id="loginUsername" placeholder="admin">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="loginPassword" placeholder="Inserisci password" autocomplete="current-password">
+            <input type="password" id="loginPassword" placeholder="admin">
         </div>
-        <button class="login-btn" onclick="eseguiLogin()" id="loginBtn">Accedi</button>
-        <p style="margin-top:20px;font-size:11px;color:#bdc3c7;">Connesso a Google Sheets · D.M. 232/2023</p>
+        <button class="login-btn" onclick="eseguiLogin()">Accedi</button>
     </div>
 </div>
 
 <div class="container" style="display:none;" id="appContainer">
 
-    <!-- User bar -->
+    <!-- USER BAR -->
     <div class="user-bar">
-        <div class="user-info">
-            <span>👤</span>
-            <strong id="utenteNomeDisplay">-</strong>
-            <span id="utenteRuoloBadge" class="user-badge-admin">ADMIN</span>
-            <span id="utenteStrutturaDisplay" style="color:#bdc3c7;"></span>
-        </div>
         <div>
-            <button class="logout-btn" onclick="eseguiLogout()">🚪 Logout</button>
+            <span>👤 <strong id="utenteNomeDisplay">-</strong></span>
+            <span id="utenteRuoloBadge" class="user-badge-admin">ADMIN</span>
         </div>
+        <button class="logout-btn" onclick="eseguiLogout()">🚪 Logout</button>
     </div>
 
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="header">
         <h1>🏥 Gestione Sinistri Sanitari - D.M. 232/2023</h1>
-
         <div class="struttura-selector">
             <select id="selectStruttura" onchange="cambiaStruttura()">
                 <option value="">-- Seleziona una struttura --</option>
             </select>
             <button class="btn btn-success" onclick="mostraModalStruttura()">➕ Nuova Struttura</button>
+            <button class="btn" onclick="syncNow()">🔄 Sincronizza</button>
+            <button class="btn btn-warning" onclick="testConnessione()">🔍 Test</button>
         </div>
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <div>
-                <span id="connectionStatus" class="status-offline">⏳ Verifica connessione...</span>
-                <span id="offlineCount" class="badge-count" style="display:none;">0 offline</span>
-            </div>
-            <div style="display:flex;gap:10px;">
-                <button class="btn" onclick="syncNow()">🔄 Sincronizza</button>
-                <button class="btn btn-success" onclick="syncCompleto()">⬇️ Sync completo</button>
-                <button class="btn btn-warning" onclick="testConnessione()">🔍 Test</button>
-            </div>
-        </div>
-
         <div id="infoStruttura" class="struttura-info">
             <div class="delete-structure-btn" onclick="confermaEliminaStruttura()">🗑️ Cancella Struttura</div>
             <h3 id="strutturaNome"></h3>
@@ -314,7 +242,7 @@
         </div>
     </div>
 
-    <!-- Main Tabs -->
+    <!-- TABS -->
     <div class="main-tabs">
         <button class="main-tab active" onclick="cambiaMainTab('sinistri')">📋 Sinistri</button>
         <button class="main-tab" onclick="cambiaMainTab('cvs')">👥 CVS</button>
@@ -335,10 +263,8 @@
         </div>
 
         <div id="content" class="content-area">
-            <!-- Lista sinistri -->
             <div class="panel">
                 <h2>📋 Sinistri</h2>
-                <div class="info-message">👆 Clicca su un sinistro per selezionarlo</div>
                 <input type="text" id="cerca" placeholder="Cerca..." style="width:100%; padding:10px; margin-bottom:15px; border:2px solid #e0e0e0; border-radius:8px;">
                 <div style="max-height: 450px; overflow-y: auto;">
                     <table class="sinistri-table">
@@ -346,242 +272,100 @@
                         <tbody id="listaSinistri"></tbody>
                     </table>
                 </div>
-                <div id="sinistroSelezionatoDisplay" style="margin-top:15px;padding:10px;background:#e8f4fd;border-radius:5px;display:none;">
-                    <strong>Sinistro selezionato:</strong> <span id="protocolloSelezionatoDisplay"></span>
-                </div>
             </div>
 
-            <!-- Dettaglio e Form -->
             <div class="panel">
                 <div style="display:flex;gap:10px;margin-bottom:20px;">
                     <button class="btn" onclick="cambiaTab('dettaglio')">📌 Dettaglio</button>
                     <button class="btn" onclick="cambiaTab('form')">✏️ Nuovo</button>
                 </div>
 
-                <!-- Tab Dettaglio -->
-                <div id="tabDettaglio">
-                    <div id="dettaglioContenuto" style="text-align:center;color:#999;padding:40px;">Seleziona un sinistro</div>
-                </div>
+                <div id="tabDettaglio"><div id="dettaglioContenuto" style="text-align:center;color:#999;padding:40px;">Seleziona un sinistro</div></div>
 
-                <!-- Tab Form -->
                 <div id="tabForm" style="display:none;">
-                    <!-- Form Nuovo Sinistro -->
                     <div id="formNuovo">
                         <h3>➕ Nuovo Sinistro</h3>
                         <div class="form-group"><label>Data evento *</label><input type="date" id="dataEvento"></div>
                         <div class="form-group">
                             <label>Reparto *</label>
                             <select id="reparto">
-                                <option value="">-- Seleziona reparto --</option>
+                                <option value="">-- Seleziona --</option>
                                 <option value="Pronto Soccorso (DEA)">Pronto Soccorso (DEA)</option>
                                 <option value="Medicina interna">Medicina interna</option>
-                                <option value="Cardiologia con UTIC">Cardiologia con UTIC</option>
+                                <option value="Cardiologia">Cardiologia</option>
                                 <option value="Neurologia">Neurologia</option>
-                                <option value="Ortopedia e traumatologia">Ortopedia e traumatologia</option>
+                                <option value="Ortopedia">Ortopedia</option>
                                 <option value="Chirurgia">Chirurgia</option>
-                                <option value="Terapia intensiva">Terapia intensiva</option>
-                                <option value="altro">Altro (specificare)</option>
+                                <option value="altro">Altro</option>
                             </select>
-                            <input type="text" id="repartoAltro" placeholder="Specificare altro reparto" style="margin-top:10px;display:none;">
+                            <input type="text" id="repartoAltro" placeholder="Specificare" style="margin-top:10px;display:none;">
                         </div>
                         <div class="form-row">
                             <div class="form-group"><label>Nome *</label><input type="text" id="nomePaziente"></div>
                             <div class="form-group"><label>Cognome *</label><input type="text" id="cognomePaziente"></div>
                         </div>
-                        <div class="form-group"><label>Codice Fiscale</label><input type="text" id="cfPaziente"></div>
+                        <div class="form-group"><label>CF</label><input type="text" id="cfPaziente"></div>
                         <div class="form-group"><label>Descrizione *</label><textarea id="descrizione" rows="2"></textarea></div>
                         <div class="form-row">
                             <div class="form-group"><label>Tipo</label><select id="tipoEvento"><option value="danno">Danno</option><option value="rischio">Rischio</option><option value="reclamo">Reclamo</option></select></div>
                             <div class="form-group"><label>Gravità</label><select id="gravita"><option value="lieve">Lieve</option><option value="moderata">Moderata</option><option value="grave">Grave</option><option value="gravissima">Gravissima</option></select></div>
                         </div>
 
-                        <!-- Sezione Risarcimento -->
-                        <div class="legal-section">
-                            <h4>⚖️ RISARCIMENTO</h4>
+                        <div class="legal-section"><h4>⚖️ RISARCIMENTO</h4>
                             <div class="form-group"><label>Data richiesta</label><input type="date" id="dataRichiesta"></div>
                             <div class="form-group"><label>Tipo richiesta</label><select id="tipoRichiesta"><option value="">Seleziona</option><option value="stragiudiziale">Stragiudiziale</option><option value="giudiziale">Giudiziale</option></select></div>
+                            <div class="form-row"><div class="form-group"><label>Ammontare (€)</label><input type="number" id="ammontareRichiesto"></div><div class="form-group"><label>Invalidità %</label><input type="number" id="invalidita"></div></div>
+                        </div>
+
+                        <div class="legal-section insurance"><h4>🏢 POLIZZA ASSICURATIVA</h4>
                             <div class="form-row">
-                                <div class="form-group"><label>Ammontare (€)</label><input type="number" id="ammontareRichiesto" min="0"></div>
-                                <div class="form-group"><label>Invalidità %</label><input type="number" id="invalidita" min="0" max="100"></div>
+                                <div class="form-group"><label>Polizza assicurativa</label><select id="polizzaAssicurativa"><option value="no">No</option><option value="si">Sì</option></select></div>
+                                <div class="form-group" id="impresaGroup"><label>Impresa assicuratrice</label><input type="text" id="impresaAssicuratrice"></div>
                             </div>
                         </div>
 
-                        <!-- NUOVA SEZIONE: Polizza Assicurativa -->
-                        <div class="legal-section insurance">
-                            <h4>🏢 POLIZZA ASSICURATIVA</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Polizza assicurativa</label>
-                                    <select id="polizzaAssicurativa" onchange="togglePolizzaFields('nuovo')">
-                                        <option value="no">No</option>
-                                        <option value="si">Sì</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="impresaAssicuratriceGroupNuovo" style="display:none;">
-                                    <label>Impresa assicuratrice</label>
-                                    <input type="text" id="impresaAssicuratrice" placeholder="es. UnipolSai, Generali">
-                                </div>
-                            </div>
-                            <div id="polizzaFieldsNuovo" style="display:none;">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>SIR (Self-Insurance Retention)</label>
-                                        <select id="sirNuovo" onchange="toggleSIRFields('nuovo')">
-                                            <option value="no">No</option>
-                                            <option value="si">Sì</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" id="quotaSIRGroupNuovo" style="display:none;">
-                                        <label>Quota SIR (€)</label>
-                                        <input type="number" id="quotaSIR" min="0" step="1000">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Franchigia</label>
-                                        <select id="franchigiaNuovo" onchange="toggleFranchigiaFields('nuovo')">
-                                            <option value="no">No</option>
-                                            <option value="si">Sì</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" id="quotaFranchigiaGroupNuovo" style="display:none;">
-                                        <label>Quota franchigia (€)</label>
-                                        <input type="number" id="quotaFranchigia" min="0" step="100">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sezione Legale -->
-                        <div class="legal-section">
-                            <h4>👨‍⚖️ LEGALE</h4>
-                            <div class="form-group"><label>Legale incaricato</label><input type="text" id="legale" placeholder="Avv. Mario Rossi"></div>
+                        <div class="legal-section"><h4>👨‍⚖️ LEGALE</h4>
+                            <div class="form-group"><label>Legale incaricato</label><input type="text" id="legale"></div>
                             <div class="form-group"><label>Studio legale</label><input type="text" id="studio"></div>
                             <div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="emailLegale"></div><div class="form-group"><label>Telefono</label><input type="text" id="telefonoLegale"></div></div>
                         </div>
 
-                        <!-- Sezione Valutazione -->
-                        <div class="legal-section purple">
-                            <h4>📋 VALUTAZIONE</h4>
-                            <div class="form-row"><div class="form-group"><label>Valutato</label><select id="valutato"><option value="no">No</option><option value="si">Sì</option></select></div></div>
-                            <div id="valutatoFieldsNuovo" style="display:none;">
+                        <div class="legal-section purple"><h4>📋 VALUTAZIONE</h4>
+                            <div class="form-group"><label>Valutato</label><select id="valutato"><option value="no">No</option><option value="si">Sì</option></select></div>
+                            <div id="valutatoFields" style="display:none;">
                                 <div class="form-group"><label>Tribunale</label><input type="text" id="tribunale"></div>
                                 <div class="form-group"><label>Numero Ruolo</label><input type="text" id="numeroRuolo"></div>
-                                <div class="form-row"><div class="form-group"><label>CTU Invalidità %</label><input type="number" id="ctuInvalidita" min="0" max="100" step="0.1"></div>
-                                <div class="form-group"><label>Inabilità (gg)</label><input type="number" id="ctuInabilita" min="0"></div></div>
+                                <div class="form-row"><div class="form-group"><label>CTU Invalidità %</label><input type="number" id="ctuInvalidita"></div><div class="form-group"><label>Inabilità (gg)</label><input type="number" id="ctuInabilita"></div></div>
                             </div>
                         </div>
 
                         <button class="btn" onclick="creaSinistro()" style="width:100%">Crea Sinistro</button>
                     </div>
 
-                    <!-- Form Assegna Medico -->
                     <div id="formMedico" style="display:none;">
                         <h3>👨‍⚕️ Assegna Medico</h3>
-                        <div class="info-message">ℹ️ Clicca su un sinistro per selezionarlo</div>
                         <div class="form-group"><label>Protocollo</label><input type="text" id="protocolloMedico" readonly style="background:#f9f9f9;"></div>
-                        <div class="form-group"><label>Medico *</label><input type="text" id="medico"></div>
+                        <div class="form-group"><label>Medico</label><input type="text" id="medico"></div>
                         <button class="btn" onclick="assegnaMedico()">Assegna</button>
                     </div>
 
-                    <!-- Form Nota -->
                     <div id="formNota" style="display:none;">
                         <h3>📝 Aggiungi Nota</h3>
-                        <div class="info-message">ℹ️ Clicca su un sinistro per selezionarlo</div>
-                        <div class="form-group"><label>Protocollo</label><input type="text" id="protocolloNota" readonly style="background:#f9f9f9;"></div>
-                        <div class="form-group"><label>Autore *</label><input type="text" id="autoreNota"></div>
-                        <div class="form-group"><label>Testo *</label><textarea id="testoNota" rows="3"></textarea></div>
+                        <div class="form-group"><label>Protocollo</label><input type="text" id="protocolloNota" readonly></div>
+                        <div class="form-group"><label>Autore</label><input type="text" id="autoreNota"></div>
+                        <div class="form-group"><label>Testo</label><textarea id="testoNota" rows="3"></textarea></div>
                         <button class="btn" onclick="aggiungiNota()">Aggiungi</button>
                     </div>
 
-                    <!-- Form Archivia -->
                     <div id="formArchivia" style="display:none;">
                         <h3>📦 Archivia Sinistro</h3>
-                        <div class="info-message">ℹ️ Clicca su un sinistro per selezionarlo</div>
-                        <div class="form-group"><label>Protocollo</label><input type="text" id="protocolloArchivia" readonly style="background:#f9f9f9;"></div>
-                        <div class="legal-section"><h4>💰 Liquidazione</h4>
-                            <div class="form-group"><label>Importo liquidato (€)</label><input type="number" id="importoLiquidato"></div>
-                            <div class="form-group"><label>Data liquidazione</label><input type="date" id="dataLiquidazione"></div>
-                        </div>
+                        <div class="form-group"><label>Protocollo</label><input type="text" id="protocolloArchivia" readonly></div>
+                        <div class="form-group"><label>Importo liquidato (€)</label><input type="number" id="importoLiquidato"></div>
+                        <div class="form-group"><label>Data liquidazione</label><input type="date" id="dataLiquidazione"></div>
                         <div class="form-group"><label>Esito</label><select id="esitoArchivia"><option value="archiviato">Archiviato</option><option value="risarcito">Risarcito</option><option value="respinto">Respinto</option></select></div>
                         <button class="btn" onclick="archiviaSinistro()">Archivia</button>
                     </div>
-
-                    <!-- Form Modifica Sinistro -->
-                    <div id="formModifica" style="display:none;">
-                        <div class="detail-header"><h3>✏️ Modifica Sinistro</h3><span class="badge badge-pending" id="modificaProtocolloDisplay"></span></div>
-                        <input type="hidden" id="modificaProtocollo">
-                        <div class="form-group"><label>Data evento</label><input type="date" id="modificaDataEvento"></div>
-                        <div class="form-group">
-                            <label>Reparto</label>
-                            <select id="modificaReparto">
-                                <option value="">-- Seleziona reparto --</option>
-                                <option value="Pronto Soccorso (DEA)">Pronto Soccorso (DEA)</option>
-                                <option value="Medicina interna">Medicina interna</option>
-                                <option value="Cardiologia con UTIC">Cardiologia con UTIC</option>
-                                <option value="altro">Altro</option>
-                            </select>
-                            <input type="text" id="modificaRepartoAltro" placeholder="Specificare reparto" style="margin-top:10px;display:none;">
-                        </div>
-                        <div class="form-row"><div class="form-group"><label>Nome</label><input type="text" id="modificaNome"></div><div class="form-group"><label>Cognome</label><input type="text" id="modificaCognome"></div></div>
-                        <div class="form-group"><label>CF</label><input type="text" id="modificaCF"></div>
-                        <div class="form-group"><label>Descrizione</label><textarea id="modificaDescrizione" rows="2"></textarea></div>
-                        <div class="form-row"><div class="form-group"><label>Tipo</label><select id="modificaTipo"><option value="danno">Danno</option><option value="rischio">Rischio</option><option value="reclamo">Reclamo</option></select></div><div class="form-group"><label>Gravità</label><select id="modificaGravita"><option value="lieve">Lieve</option><option value="moderata">Moderata</option><option value="grave">Grave</option><option value="gravissima">Gravissima</option></select></div></div>
-                        <div class="form-group"><label>Medico</label><input type="text" id="modificaMedico"></div>
-
-                        <!-- Risarcimento Modifica -->
-                        <div class="legal-section"><h4>⚖️ RISARCIMENTO</h4>
-                            <div class="form-group"><label>Data richiesta</label><input type="date" id="modificaDataRichiesta"></div>
-                            <div class="form-group"><label>Tipo richiesta</label><select id="modificaTipoRichiesta"><option value="">Seleziona</option><option value="stragiudiziale">Stragiudiziale</option><option value="giudiziale">Giudiziale</option></select></div>
-                            <div class="form-row"><div class="form-group"><label>Ammontare (€)</label><input type="number" id="modificaAmmontare" min="0"></div><div class="form-group"><label>Invalidità %</label><input type="number" id="modificaInvalidita" min="0" max="100"></div></div>
-                        </div>
-
-                        <!-- Polizza Assicurativa Modifica -->
-                        <div class="legal-section insurance"><h4>🏢 POLIZZA ASSICURATIVA</h4>
-                            <div class="form-row">
-                                <div class="form-group"><label>Polizza assicurativa</label><select id="modificaPolizzaAssicurativa" onchange="togglePolizzaFields('modifica')"><option value="no">No</option><option value="si">Sì</option></select></div>
-                                <div class="form-group" id="modificaImpresaAssicuratriceGroup"><label>Impresa assicuratrice</label><input type="text" id="modificaImpresaAssicuratrice"></div>
-                            </div>
-                            <div id="modificaPolizzaFields" style="display:none;">
-                                <div class="form-row"><div class="form-group"><label>SIR</label><select id="modificaSir" onchange="toggleSIRFields('modifica')"><option value="no">No</option><option value="si">Sì</option></select></div><div class="form-group" id="modificaQuotaSIRGroup"><label>Quota SIR (€)</label><input type="number" id="modificaQuotaSIR" min="0" step="1000"></div></div>
-                                <div class="form-row"><div class="form-group"><label>Franchigia</label><select id="modificaFranchigia" onchange="toggleFranchigiaFields('modifica')"><option value="no">No</option><option value="si">Sì</option></select></div><div class="form-group" id="modificaQuotaFranchigiaGroup"><label>Quota franchigia (€)</label><input type="number" id="modificaQuotaFranchigia" min="0" step="100"></div></div>
-                            </div>
-                        </div>
-
-                        <!-- Legale Modifica -->
-                        <div class="legal-section"><h4>👨‍⚖️ LEGALE</h4>
-                            <div class="form-group"><label>Legale</label><input type="text" id="modificaLegale"></div>
-                            <div class="form-group"><label>Studio</label><input type="text" id="modificaStudio"></div>
-                            <div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="modificaEmail"></div><div class="form-group"><label>Telefono</label><input type="text" id="modificaTelefono"></div></div>
-                        </div>
-
-                        <!-- Valutazione Modifica -->
-                        <div class="legal-section purple"><h4>📋 VALUTAZIONE</h4>
-                            <div class="form-group"><label>Valutato</label><select id="modificaValutato"><option value="no">No</option><option value="si">Sì</option></select></div>
-                            <div id="valutatoFieldsModifica" style="display:none;">
-                                <div class="form-group"><label>Tribunale</label><input type="text" id="modificaTribunale"></div>
-                                <div class="form-group"><label>Numero Ruolo</label><input type="text" id="modificaNumeroRuolo"></div>
-                                <div class="form-row"><div class="form-group"><label>CTU Invalidità %</label><input type="number" id="modificaCtuInvalidita" min="0" max="100" step="0.1"></div><div class="form-group"><label>Inabilità (gg)</label><input type="number" id="modificaCtuInabilita" min="0"></div></div>
-                            </div>
-                        </div>
-
-                        <div class="modal-actions">
-                            <button class="btn btn-warning" onclick="annullaModifica()">Annulla</button>
-                            <button class="btn btn-success" onclick="salvaModifiche()">Salva</button>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Statistiche Generali Panel -->
-        <div id="statisticheGeneraliPanel" class="panel" style="display:none;margin-top:20px;">
-            <h2>📊 Statistiche Generali</h2>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px;">
-                <div style="background:#3498db;color:white;padding:20px;border-radius:10px;text-align:center;"><div style="font-size:28px;font-weight:bold;" id="statTotale">0</div><div>Totale</div></div>
-                <div style="background:#27ae60;color:white;padding:20px;border-radius:10px;text-align:center;"><div style="font-size:28px;font-weight:bold;" id="statApertiNum">0</div><div>Aperti</div></div>
-                <div style="background:#e74c3c;color:white;padding:20px;border-radius:10px;text-align:center;"><div style="font-size:28px;font-weight:bold;" id="statChiusiNum">0</div><div>Chiusi</div></div>
-                <div style="background:#f39c12;color:white;padding:20px;border-radius:10px;text-align:center;"><div style="font-size:28px;font-weight:bold;" id="statGiudiziali">0</div><div>Giudiziali</div></div>
             </div>
         </div>
     </div>
@@ -590,14 +374,16 @@
     <div id="tabCVS" class="tab-content">
         <div class="panel">
             <h2>👥 Comitato di Valutazione Sinistri (CVS)</h2>
-            <div class="cvs-section"><h3>📋 Dati Generali CVS</h3><div class="form-group"><label>Data delibera costituzione</label><input type="date" id="cvsDataDelibera" style="background:white;color:#2c3e50;border:2px solid #ccc;border-radius:8px;"></div></div>
+            <div class="cvs-section">
+                <div class="form-group"><label>Data delibera costituzione</label><input type="date" id="cvsDataDelibera"></div>
+            </div>
             <div class="cvs-grid">
                 <div class="cvs-card"><h4>🛡️ Risk Manager</h4><div class="form-group"><input type="text" id="riskManagerNome" placeholder="Nome"></div><div class="form-group"><input type="email" id="riskManagerEmail" placeholder="Email"></div><div class="form-group"><input type="text" id="riskManagerTelefono" placeholder="Telefono"></div></div>
                 <div class="cvs-card"><h4>⚕️ Medico Legale</h4><div class="form-group"><input type="text" id="medicoLegaleNome" placeholder="Nome"></div><div class="form-group"><input type="email" id="medicoLegaleEmail" placeholder="Email"></div><div class="form-group"><input type="text" id="medicoLegaleTelefono" placeholder="Telefono"></div></div>
                 <div class="cvs-card"><h4>📊 Loss Adjuster</h4><div class="form-group"><input type="text" id="lossAdjusterNome" placeholder="Nome"></div><div class="form-group"><input type="email" id="lossAdjusterEmail" placeholder="Email"></div><div class="form-group"><input type="text" id="lossAdjusterTelefono" placeholder="Telefono"></div></div>
                 <div class="cvs-card"><h4>⚖️ Avvocato</h4><div class="form-group"><input type="text" id="avvocatoNome" placeholder="Nome"></div><div class="form-group"><input type="email" id="avvocatoEmail" placeholder="Email"></div><div class="form-group"><input type="text" id="avvocatoTelefono" placeholder="Telefono"></div></div>
             </div>
-            <div style="margin-top:20px;"><button class="btn btn-success" onclick="salvaCVS()">💾 Salva CVS</button><button class="btn" onclick="caricaCVS()" style="margin-left:10px;">🔄 Carica</button></div>
+            <button class="btn btn-success" onclick="salvaCVS()" style="margin-top:20px;">💾 Salva CVS</button>
         </div>
     </div>
 
@@ -606,12 +392,10 @@
         <div class="panel">
             <h2>📅 Calendario Riunioni CVS</h2>
             <div style="background:#f8f9fa;padding:20px;border-radius:10px;margin-bottom:20px;">
-                <h3>➕ Nuova Riunione</h3>
                 <div class="form-row"><div class="form-group"><label>Data</label><input type="date" id="nuovaRiunioneData"></div><div class="form-group"><label>Ora</label><input type="time" id="nuovaRiunioneOra"></div></div>
-                <div class="form-group"><label>Tipo</label><select id="nuovaRiunioneTipo"><option value="ordinaria">Ordinaria</option><option value="straordinaria">Straordinaria</option><option value="urgente">Urgente</option></select></div>
+                <div class="form-group"><label>Tipo</label><select id="nuovaRiunioneTipo"><option value="ordinaria">Ordinaria</option><option value="straordinaria">Straordinaria</option></select></div>
                 <div class="form-group"><label>ODG</label><textarea id="nuovaRiunioneOdg" rows="2"></textarea></div>
                 <div class="form-group"><label>Partecipanti</label><input type="text" id="nuovaRiunionePartecipanti"></div>
-                <div class="form-group"><label>Note</label><textarea id="nuovaRiunioneNote" rows="2"></textarea></div>
                 <button class="btn btn-success" onclick="aggiungiRiunione()">📅 Aggiungi</button>
             </div>
             <div class="calendar-section">
@@ -624,164 +408,75 @@
 
     <!-- TAB STATISTICHE -->
     <div id="tabStatistiche" class="tab-content">
-        <div class="panel">
-            <h2>📊 Statistiche per Reparto</h2>
-            <div id="statisticheRepartiContainer" style="margin-top:20px;"></div>
-        </div>
+        <div class="panel"><h2>📊 Statistiche per Reparto</h2><div id="statisticheRepartiContainer"></div></div>
     </div>
 
-    <!-- Modal Nuova Struttura -->
+    <!-- MODAL STRUTTURA -->
     <div id="modalStruttura" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>➕ Nuova Struttura</h3><span class="close" onclick="chiudiModalStruttura()">&times;</span></div>
             <div class="form-group"><label>Nome *</label><input type="text" id="nuovaStrutturaNome"></div>
-            <div class="form-group"><label>Tipo</label><select id="nuovaStrutturaTipo"><option value="ospedale">Ospedale</option><option value="casa_cura">Casa di Cura</option><option value="poliambulatorio">Poliambulatorio</option><option value="rsa">RSA</option><option value="altro">Altro</option></select><input type="text" id="nuovaStrutturaTipoAltro" placeholder="Specificare" style="margin-top:10px;display:none;"></div>
-            <div class="form-row"><div class="form-group"><label>CF</label><input type="text" id="nuovaStrutturaCF" maxlength="16"></div><div class="form-group"><label>P.IVA</label><input type="text" id="nuovaStrutturaPIVA" maxlength="11"></div></div>
+            <div class="form-group"><label>Tipo</label><select id="nuovaStrutturaTipo"><option value="ospedale">Ospedale</option><option value="casa_cura">Casa di Cura</option><option value="poliambulatorio">Poliambulatorio</option><option value="altro">Altro</option></select><input type="text" id="nuovaStrutturaTipoAltro" placeholder="Specificare" style="margin-top:10px;display:none;"></div>
+            <div class="form-row"><div class="form-group"><label>CF</label><input type="text" id="nuovaStrutturaCF"></div><div class="form-group"><label>P.IVA</label><input type="text" id="nuovaStrutturaPIVA"></div></div>
             <div class="form-group"><label>Via</label><input type="text" id="nuovaStrutturaVia"></div>
             <div class="form-row-3"><div class="form-group"><label>Città</label><input type="text" id="nuovaStrutturaCitta"></div><div class="form-group"><label>Provincia</label><input type="text" id="nuovaStrutturaProvincia" maxlength="2"></div><div class="form-group"><label>CAP</label><input type="text" id="nuovaStrutturaCAP" maxlength="5"></div></div>
             <div class="form-row"><div class="form-group"><label>Telefono</label><input type="text" id="nuovaStrutturaTelefono"></div><div class="form-group"><label>Email</label><input type="email" id="nuovaStrutturaEmail"></div></div>
             <div class="form-group"><label>Direttore</label><input type="text" id="nuovaStrutturaDirettore"></div>
-            <button class="btn" onclick="creaNuovaStruttura()" style="width:100%">Crea</button>
+            <button class="btn" onclick="creaNuovaStruttura()">Crea</button>
         </div>
     </div>
 
-    <!-- Modal doppia conferma eliminazione -->
-    <div id="modalConfermaElimina1" class="modal">
-        <div class="modal-content"><div class="modal-header warning"><h3>⚠️ Conferma Eliminazione</h3><span class="close" onclick="chiudiModalElimina1()">&times;</span></div>
-        <div class="warning-message">⚠️ Stai per eliminare la struttura <strong id="strutturaDaEliminareNome"></strong></div>
-        <p>Questa struttura ha <strong id="strutturaDaEliminareSinistri">0</strong> sinistri associati.</p>
-        <div class="modal-actions"><button class="btn" onclick="chiudiModalElimina1()">Annulla</button><button class="btn btn-warning" onclick="mostraSecondaConferma()">Continua</button></div>
-        </div>
-    </div>
-    <div id="modalConfermaElimina2" class="modal">
-        <div class="modal-content"><div class="modal-header warning"><h3>⚠️⚠️ ULTIMA CONFERMA</h3><span class="close" onclick="chiudiModalElimina2()">&times;</span></div>
-        <div class="danger-message">🚨 OPERAZIONE IRREVERSIBILE</div>
-        <p>Sei sicuro di voler eliminare <strong id="strutturaDaEliminareNome2"></strong>?</p>
-        <p style="color:#e74c3c;">Tutti i <strong id="strutturaDaEliminareSinistri2">0</strong> sinistri verranno cancellati.</p>
-        <div class="form-group"><label>Digita "CONFERMA" per procedere:</label><input type="text" id="confermaEliminazione" placeholder="CONFERMA"></div>
-        <div class="modal-actions"><button class="btn" onclick="chiudiModalElimina2()">Annulla</button><button class="btn btn-danger" onclick="eliminaStruttura()">Elimina</button></div>
-        </div>
-    </div>
-
-</div> <!-- fine container -->
+</div>
 
 <script>
     // ============================================
-    // CONFIGURAZIONE
+    // STATO APPLICAZIONE
     // ============================================
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZ7MOUasRqG8ADQU6SThxJBEUAQe6Ahk2OQkJb5jW4JYk7ogpGpDyUsL_4iTf7P99P/exec';
-
     let strutture = {};
     let strutturaCorrente = null;
-    let sinistroSelezionato = null;
-    let sinistroSelezionatoLista = null;
     let utenteCorrente = null;
-    let connessioneOK = false;
-    let datiOffline = JSON.parse(localStorage.getItem('sinistri_offline') || '[]');
+    let sinistri = [];
     let meseCorrente = new Date().getMonth();
     let annoCorrente = new Date().getFullYear();
     const nomiMesi = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 
     // ============================================
-    // FUNZIONI UTILITY
+    // FUNZIONI LOGIN
     // ============================================
-    function generaProtocollo() {
-        if (!strutturaCorrente) return 'SIN/' + new Date().getFullYear() + '/0001';
-        const s = strutture[strutturaCorrente];
-        const sigla = (s.nome || 'STR').split(' ').map(p => p[0]).join('').toUpperCase().substring(0,3);
-        const anno = new Date().getFullYear();
-        const prog = (s.sinistri ? s.sinistri.length : 0) + 1;
-        return `${sigla}/${anno}/${prog.toString().padStart(4,'0')}`;
-    }
-
-    function aggiornaOfflineCount() {
-        const count = datiOffline.length;
-        const el = document.getElementById('offlineCount');
-        if (el) {
-            if (count > 0) { el.textContent = count + ' offline'; el.style.display = 'inline'; }
-            else { el.style.display = 'none'; }
-        }
-    }
-
-    // ============================================
-    // GESTIONE CAMPI CONDIZIONALI POLIZZA
-    // ============================================
-    function togglePolizzaFields(prefix) {
-        const polizzaVal = document.getElementById(prefix === 'nuovo' ? 'polizzaAssicurativa' : 'modificaPolizzaAssicurativa').value;
-        const impresaGroup = document.getElementById(prefix === 'nuovo' ? 'impresaAssicuratriceGroupNuovo' : 'modificaImpresaAssicuratriceGroup');
-        const polizzaFields = document.getElementById(prefix === 'nuovo' ? 'polizzaFieldsNuovo' : 'modificaPolizzaFields');
-        if (impresaGroup) impresaGroup.style.display = polizzaVal === 'si' ? 'block' : 'none';
-        if (polizzaFields) polizzaFields.style.display = polizzaVal === 'si' ? 'block' : 'none';
-        if (polizzaVal !== 'si') {
-            const sirSel = document.getElementById(prefix === 'nuovo' ? 'sirNuovo' : 'modificaSir');
-            const franchigiaSel = document.getElementById(prefix === 'nuovo' ? 'franchigiaNuovo' : 'modificaFranchigia');
-            if (sirSel) sirSel.value = 'no';
-            if (franchigiaSel) franchigiaSel.value = 'no';
-            toggleSIRFields(prefix);
-            toggleFranchigiaFields(prefix);
-        }
-    }
-    function toggleSIRFields(prefix) {
-        const sirVal = document.getElementById(prefix === 'nuovo' ? 'sirNuovo' : 'modificaSir').value;
-        const quotaGroup = document.getElementById(prefix === 'nuovo' ? 'quotaSIRGroupNuovo' : 'modificaQuotaSIRGroup');
-        if (quotaGroup) quotaGroup.style.display = sirVal === 'si' ? 'block' : 'none';
-    }
-    function toggleFranchigiaFields(prefix) {
-        const franchigiaVal = document.getElementById(prefix === 'nuovo' ? 'franchigiaNuovo' : 'modificaFranchigia').value;
-        const quotaGroup = document.getElementById(prefix === 'nuovo' ? 'quotaFranchigiaGroupNuovo' : 'modificaQuotaFranchigiaGroup');
-        if (quotaGroup) quotaGroup.style.display = franchigiaVal === 'si' ? 'block' : 'none';
-    }
-
-    // ============================================
-    // LOGIN / LOGOUT
-    // ============================================
-    async function eseguiLogin() {
-        const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
+    function eseguiLogin() {
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
         const errEl = document.getElementById('loginError');
-        if (!username || !password) { errEl.textContent = '❌ Inserire username e password'; errEl.style.display = 'block'; return; }
-        try {
-            const res = await fetchGAS({ action: 'login', username, password }, { method: 'POST' });
-            if (res && res.success) {
-                utenteCorrente = res.utente;
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('appContainer').style.display = 'block';
-                document.getElementById('utenteNomeDisplay').textContent = utenteCorrente.username;
-                const badge = document.getElementById('utenteRuoloBadge');
-                badge.textContent = utenteCorrente.ruolo === 'admin' ? 'ADMIN' : 'USER';
-                badge.className = utenteCorrente.ruolo === 'admin' ? 'user-badge-admin' : 'user-badge-user';
-                document.getElementById('utenteStrutturaDisplay').textContent = utenteCorrente.strutturaNome ? '— ' + utenteCorrente.strutturaNome : '';
-                caricaDati();
-                aggiornaSelettore();
-                aggiornaCalendario();
-                if (utenteCorrente.ruolo === 'admin') {
-                    document.getElementById('noStruttura').style.display = 'block';
-                    document.getElementById('infoStruttura').style.display = 'none';
-                    await verificaConnessione();
-                    if (connessioneOK) await caricaStruttureDaSheet();
-                } else if (utenteCorrente.strutturaId) {
-                    if (!strutture[utenteCorrente.strutturaId]) {
-                        strutture[utenteCorrente.strutturaId] = {
-                            id: utenteCorrente.strutturaId,
-                            nome: utenteCorrente.strutturaNome || utenteCorrente.strutturaId,
-                            tipo: 'ospedale',
-                            sinistri: [], riunioni: [], cvs: {}
-                        };
-                        salvaDati();
+        
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res.success) {
+                    utenteCorrente = res.utente;
+                    document.getElementById('loginOverlay').style.display = 'none';
+                    document.getElementById('appContainer').style.display = 'block';
+                    document.getElementById('utenteNomeDisplay').textContent = utenteCorrente.username;
+                    const badge = document.getElementById('utenteRuoloBadge');
+                    badge.textContent = utenteCorrente.ruolo === 'admin' ? 'ADMIN' : 'USER';
+                    badge.className = utenteCorrente.ruolo === 'admin' ? 'user-badge-admin' : 'user-badge-user';
+                    
+                    caricaDati();
+                    aggiornaSelettore();
+                    aggiornaCalendario();
+                    if (utenteCorrente.ruolo === 'admin') {
+                        caricaStruttureDaSheet();
                     }
-                    document.getElementById('selectStruttura').value = utenteCorrente.strutturaId;
-                    await verificaConnessione();
-                    cambiaStruttura();
+                } else {
+                    errEl.textContent = '❌ ' + (res.error || 'Credenziali non valide');
+                    errEl.style.display = 'block';
                 }
-            } else {
-                errEl.textContent = '❌ ' + (res?.error || 'Credenziali non valide');
+            })
+            .withFailureHandler(function(error) {
+                errEl.textContent = '❌ Errore di connessione: ' + error;
                 errEl.style.display = 'block';
-            }
-        } catch (err) {
-            errEl.textContent = '❌ Errore di connessione';
-            errEl.style.display = 'block';
-        }
+            })
+            .login(username, password);
     }
+
     function eseguiLogout() {
         utenteCorrente = null;
         strutturaCorrente = null;
@@ -790,138 +485,244 @@
     }
 
     // ============================================
-    // GOOGLE SHEETS
+    // FUNZIONI DATI LOCALI
     // ============================================
-    async function verificaConnessione() {
-        const el = document.getElementById('connectionStatus');
-        el.innerHTML = '⏳ Verifica...';
-        try {
-            const res = await fetchGAS('?test=1', { method: 'GET' });
-            if (res && res.success) { connessioneOK = true; el.innerHTML = '✅ Connesso'; el.className = 'status-online'; }
-            else throw new Error('Errore');
-        } catch (err) { connessioneOK = false; el.innerHTML = '❌ Offline'; el.className = 'status-offline'; }
+    function caricaDati() {
+        const saved = localStorage.getItem('strutture_db');
+        if (saved) strutture = JSON.parse(saved);
+        else strutture = {};
     }
-    async function fetchGAS(body, options) {
-        const isGet = options.method === 'GET';
-        const url = isGet ? GOOGLE_SCRIPT_URL + (body || '') : GOOGLE_SCRIPT_URL;
-        const opts = isGet ? { method: 'GET', redirect: 'follow' } : { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body), redirect: 'follow' };
-        const resp = await fetch(url, opts);
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        const text = await resp.text();
-        try { return JSON.parse(text); } catch { throw new Error('Risposta non JSON'); }
-    }
-    async function caricaStruttureDaSheet() {
-        try {
-            const res = await fetchGAS('?action=getStrutture', { method: 'GET' });
-            if (!res || !res.success) return;
-            res.data.forEach(r => {
-                const id = r['ID'] || r['id'];
-                if (!id) return;
-                if (!strutture[id]) strutture[id] = { id, nome: r['Nome'] || id, tipo: r['Tipo'] || 'ospedale', sinistri: [], riunioni: [], cvs: {} };
-                else { strutture[id].nome = r['Nome'] || strutture[id].nome; strutture[id].tipo = r['Tipo'] || strutture[id].tipo; }
-            });
-            salvaDati();
-            aggiornaSelettore();
-        } catch (err) { console.error(err); }
-    }
-    async function syncNow() { if (connessioneOK && strutturaCorrente) await caricaSinistriDaSheet(); }
-    async function syncCompleto() { if (!connessioneOK) return; await caricaSinistriDaSheet(); alert('Sincronizzazione completata'); }
-    async function caricaSinistriDaSheet() {
-        if (!connessioneOK || !strutturaCorrente) return;
-        try {
-            const res = await fetchGAS(`?action=getAll&strutturaId=${encodeURIComponent(strutturaCorrente)}`, { method: 'GET' });
-            if (!res || !res.success) return;
-            const s = strutture[strutturaCorrente];
-            if (res.sinistri) s.sinistri = res.sinistri.map(r => ({
-                numero_protocollo: r['Numero Protocollo'] || '',
-                data_evento: r['Data Evento'] || '',
-                reparto: r['Reparto'] || '',
-                paziente: { nome: r['Paziente Nome'] || '', cognome: r['Paziente Cognome'] || '', cf: r['Paziente CF'] || '' },
-                descrizione: r['Descrizione'] || '',
-                tipo_evento: r['Tipo Evento'] || '',
-                gravita: r['Gravità'] || '',
-                esito: r['Esito'] || 'in_corso',
-                medico: r['Medico'] || '',
-                data_richiesta: r['Data Richiesta'] || '',
-                tipo_richiesta: r['Tipo Richiesta'] || '',
-                ammontare: parseFloat(r['Ammontare Richiesto']) || null,
-                invalidita: parseInt(r['Invalidità %']) || null,
-                legale: r['Legale'] || '',
-                studio: r['Studio Legale'] || '',
-                polizza_assicurativa: r['PolizzaAssicurativa'] || 'no',
-                impresa_assicuratrice: r['ImpresaAssicuratrice'] || '',
-                sir: r['SIR'] || 'no',
-                quota_sir: parseFloat(r['QuotaSIR']) || null,
-                franchigia: r['Franchigia'] || 'no',
-                quota_franchigia: parseFloat(r['QuotaFranchigia']) || null,
-                note: []
-            }));
-            salvaDati();
+
+    function salvaDati() {
+        localStorage.setItem('strutture_db', JSON.stringify(strutture));
+        aggiornaSelettore();
+        if (strutturaCorrente) {
+            aggiornaInfoStruttura();
             aggiornaListaSinistri();
-        } catch (err) { console.error(err); }
+        }
     }
-    function testConnessione() { verificaConnessione(); alert(connessioneOK ? 'Connessione OK' : 'Connessione fallita'); }
 
     // ============================================
-    // GESTIONE DATI LOCALI
+    // FUNZIONI SYNC GOOGLE SHEETS
     // ============================================
-    function caricaDati() { const saved = localStorage.getItem('sinistri_db_completo_v5'); if (saved) strutture = JSON.parse(saved); else strutture = {}; }
-    function salvaDati() { localStorage.setItem('sinistri_db_completo_v5', JSON.stringify(strutture)); aggiornaSelettore(); if (strutturaCorrente) { aggiornaInfoStruttura(); aggiornaListaSinistri(); aggiornaStatisticheReparti(); caricaDatiCVS(); aggiornaCalendario(); } }
+    function testConnessione() {
+        google.script.run
+            .withSuccessHandler(function(response) {
+                if (response.success) {
+                    alert('✅ Connessione OK!\nFoglio: ' + response.sheetName);
+                } else {
+                    alert('❌ Errore: ' + response.error);
+                }
+            })
+            .withFailureHandler(function(error) {
+                alert('❌ Errore di connessione: ' + error);
+            })
+            .testConnessione();
+    }
+
+    function caricaStruttureDaSheet() {
+        google.script.run
+            .withSuccessHandler(function(response) {
+                if (!response || !response.success) return;
+                
+                response.data.forEach(r => {
+                    const id = r['ID'] || r['id'];
+                    if (!id) return;
+                    
+                    if (!strutture[id]) {
+                        strutture[id] = {
+                            id: id,
+                            nome: r['Nome'] || id,
+                            tipo: r['Tipo'] || 'ospedale',
+                            via: r['Via'] || '',
+                            citta: r['Città'] || '',
+                            provincia: r['Provincia'] || '',
+                            cap: r['CAP'] || '',
+                            telefono: r['Telefono'] || '',
+                            email: r['Email'] || '',
+                            direttore: r['Direttore'] || '',
+                            emailAccesso: r['EmailAccesso'] || '',
+                            passwordAccesso: r['PasswordAccesso'] || '',
+                            sinistri: []
+                        };
+                    } else {
+                        strutture[id].nome = r['Nome'] || strutture[id].nome;
+                        strutture[id].tipo = r['Tipo'] || strutture[id].tipo;
+                        strutture[id].via = r['Via'] || strutture[id].via;
+                        strutture[id].citta = r['Città'] || strutture[id].citta;
+                        strutture[id].telefono = r['Telefono'] || strutture[id].telefono;
+                        strutture[id].email = r['Email'] || strutture[id].email;
+                        strutture[id].direttore = r['Direttore'] || strutture[id].direttore;
+                    }
+                });
+                
+                salvaDati();
+                aggiornaSelettore();
+                
+                if (strutturaCorrente) {
+                    caricaSinistriDaSheet();
+                }
+            })
+            .withFailureHandler(function(error) {
+                console.error('Errore caricamento strutture:', error);
+            })
+            .getStrutture();
+    }
+
+    function caricaSinistriDaSheet() {
+        if (!strutturaCorrente) return;
+        
+        google.script.run
+            .withSuccessHandler(function(response) {
+                if (!response || !response.success) return;
+                
+                const s = strutture[strutturaCorrente];
+                if (response.sinistri && response.sinistri.length > 0) {
+                    s.sinistri = response.sinistri;
+                    salvaDati();
+                    aggiornaListaSinistri();
+                }
+            })
+            .withFailureHandler(function(error) {
+                console.error('Errore caricamento sinistri:', error);
+            })
+            .getAll(strutturaCorrente);
+    }
+
+    function syncNow() {
+        if (!strutturaCorrente) {
+            alert('Seleziona una struttura prima di sincronizzare');
+            return;
+        }
+        caricaSinistriDaSheet();
+        caricaDatiCVS();
+        alert('🔄 Sincronizzazione avviata!');
+    }
 
     // ============================================
-    // STRUTTURE
+    // GESTIONE STRUTTURE
     // ============================================
     function aggiornaSelettore() {
         const select = document.getElementById('selectStruttura');
         select.innerHTML = '<option value="">-- Seleziona --</option>';
-        for (let id in strutture) select.innerHTML += `<option value="${id}" ${strutturaCorrente === id ? 'selected' : ''}>${strutture[id].nome} (${strutture[id].sinistri?.length || 0})</option>`;
+        for (let id in strutture) {
+            select.innerHTML += `<option value="${id}" ${strutturaCorrente === id ? 'selected' : ''}>${strutture[id].nome} (${strutture[id].sinistri?.length || 0})</option>`;
+        }
     }
+
     function cambiaStruttura() {
         const id = document.getElementById('selectStruttura').value;
-        if (!id) { strutturaCorrente = null; document.getElementById('infoStruttura').style.display = 'none'; document.getElementById('noStruttura').style.display = 'block'; return; }
+        if (!id) {
+            strutturaCorrente = null;
+            document.getElementById('infoStruttura').style.display = 'none';
+            document.getElementById('noStruttura').style.display = 'block';
+            return;
+        }
         strutturaCorrente = id;
-        sinistroSelezionatoLista = null;
         document.getElementById('infoStruttura').style.display = 'block';
         document.getElementById('noStruttura').style.display = 'none';
         aggiornaInfoStruttura();
         aggiornaListaSinistri();
-        aggiornaStatisticheReparti();
         caricaDatiCVS();
-        aggiornaCalendario();
         caricaSinistriDaSheet();
     }
+
     function aggiornaInfoStruttura() {
         if (!strutturaCorrente) return;
         const s = strutture[strutturaCorrente];
         document.getElementById('strutturaNome').textContent = s.nome;
         document.getElementById('strutturaTipo').textContent = s.tipo || 'Ospedale';
-        document.getElementById('strutturaIndirizzoCompleto').innerHTML = `<div><strong>Indirizzo:</strong> ${s.via || ''} ${s.citta || ''} (${s.provincia || ''})</div>`;
+        document.getElementById('strutturaIndirizzoCompleto').innerHTML = `
+            <div><strong>Indirizzo:</strong> ${s.via || ''} ${s.citta || ''} (${s.provincia || ''}) ${s.cap || ''}</div>
+            <div><strong>Contatti:</strong> Tel: ${s.telefono || '-'} | Email: ${s.email || '-'}</div>
+            <div><strong>Direttore:</strong> ${s.direttore || '-'}</div>`;
         const aperti = (s.sinistri || []).filter(x => x.esito === 'in_corso').length;
         document.getElementById('statAperti').textContent = aperti;
         document.getElementById('statChiusi').textContent = (s.sinistri?.length || 0) - aperti;
         document.getElementById('statTotaleSinistri').textContent = s.sinistri?.length || 0;
     }
-    function mostraModalStruttura() { document.getElementById('modalStruttura').classList.add('active'); }
-    function chiudiModalStruttura() { document.getElementById('modalStruttura').classList.remove('active'); }
+
+    function mostraModalStruttura() {
+        document.getElementById('modalStruttura').classList.add('active');
+    }
+
+    function chiudiModalStruttura() {
+        document.getElementById('modalStruttura').classList.remove('active');
+        document.getElementById('nuovaStrutturaNome').value = '';
+        document.getElementById('nuovaStrutturaTipo').value = 'ospedale';
+        document.getElementById('nuovaStrutturaTipoAltro').style.display = 'none';
+        document.getElementById('nuovaStrutturaTipoAltro').value = '';
+        document.getElementById('nuovaStrutturaCF').value = '';
+        document.getElementById('nuovaStrutturaPIVA').value = '';
+        document.getElementById('nuovaStrutturaVia').value = '';
+        document.getElementById('nuovaStrutturaCitta').value = '';
+        document.getElementById('nuovaStrutturaProvincia').value = '';
+        document.getElementById('nuovaStrutturaCAP').value = '';
+        document.getElementById('nuovaStrutturaTelefono').value = '';
+        document.getElementById('nuovaStrutturaEmail').value = '';
+        document.getElementById('nuovaStrutturaDirettore').value = '';
+    }
+
     function creaNuovaStruttura() {
         const nome = document.getElementById('nuovaStrutturaNome').value.trim();
         if (!nome) { alert('Inserire nome'); return; }
         const id = 'struttura_' + Date.now();
-        strutture[id] = { id, nome, tipo: document.getElementById('nuovaStrutturaTipo').value, sinistri: [], riunioni: [], cvs: {} };
+        const nuova = {
+            id: id,
+            nome: nome,
+            tipo: document.getElementById('nuovaStrutturaTipo').value,
+            via: document.getElementById('nuovaStrutturaVia').value,
+            citta: document.getElementById('nuovaStrutturaCitta').value,
+            provincia: document.getElementById('nuovaStrutturaProvincia').value.toUpperCase(),
+            cap: document.getElementById('nuovaStrutturaCAP').value,
+            telefono: document.getElementById('nuovaStrutturaTelefono').value,
+            email: document.getElementById('nuovaStrutturaEmail').value,
+            direttore: document.getElementById('nuovaStrutturaDirettore').value,
+            sinistri: []
+        };
+        strutture[id] = nuova;
         salvaDati();
+        
+        // Salva su Sheets
+        google.script.run
+            .withSuccessHandler(function() { console.log('Struttura salvata su Sheets'); })
+            .withFailureHandler(function(error) { console.error('Errore:', error); })
+            .saveStruttura({
+                struttura: {
+                    ID: id,
+                    Nome: nome,
+                    Tipo: nuova.tipo,
+                    Via: nuova.via,
+                    Città: nuova.citta,
+                    Provincia: nuova.provincia,
+                    CAP: nuova.cap,
+                    Telefono: nuova.telefono,
+                    Email: nuova.email,
+                    Direttore: nuova.direttore,
+                    EmailAccesso: nome.toLowerCase().replace(/[^a-z0-9]/g, '.') + '@struttura.it',
+                    PasswordAccesso: 'password123'
+                }
+            });
+        
         chiudiModalStruttura();
         document.getElementById('selectStruttura').value = id;
         cambiaStruttura();
+        alert('✅ Struttura "' + nome + '" creata!');
     }
-    // Eliminazione doppia conferma (funzioni semplificate)
-    function confermaEliminaStruttura() { if (!strutturaCorrente) return; const s = strutture[strutturaCorrente]; document.getElementById('strutturaDaEliminareNome').textContent = s.nome; document.getElementById('strutturaDaEliminareSinistri').textContent = s.sinistri?.length || 0; document.getElementById('strutturaDaEliminareNome2').textContent = s.nome; document.getElementById('strutturaDaEliminareSinistri2').textContent = s.sinistri?.length || 0; document.getElementById('modalConfermaElimina1').classList.add('active'); }
-    function chiudiModalElimina1() { document.getElementById('modalConfermaElimina1').classList.remove('active'); }
-    function mostraSecondaConferma() { document.getElementById('modalConfermaElimina1').classList.remove('active'); document.getElementById('modalConfermaElimina2').classList.add('active'); }
-    function chiudiModalElimina2() { document.getElementById('modalConfermaElimina2').classList.remove('active'); }
-    function eliminaStruttura() { if (document.getElementById('confermaEliminazione').value !== 'CONFERMA') { alert('Digitare CONFERMA'); return; } if (strutturaCorrente) { delete strutture[strutturaCorrente]; salvaDati(); chiudiModalElimina2(); document.getElementById('selectStruttura').value = ''; cambiaStruttura(); alert('Struttura eliminata'); } }
+
+    function confermaEliminaStruttura() {
+        if (!strutturaCorrente) { alert('Nessuna struttura selezionata'); return; }
+        if (confirm('Sei sicuro di voler eliminare questa struttura?')) {
+            delete strutture[strutturaCorrente];
+            salvaDati();
+            document.getElementById('selectStruttura').value = '';
+            cambiaStruttura();
+            alert('Struttura eliminata');
+        }
+    }
 
     // ============================================
-    // SINISTRI
+    // GESTIONE SINISTRI
     // ============================================
     function aggiornaListaSinistri() {
         if (!strutturaCorrente) return;
@@ -929,51 +730,49 @@
         const search = document.getElementById('cerca').value.toLowerCase();
         const tbody = document.getElementById('listaSinistri');
         tbody.innerHTML = '';
-        (s.sinistri || []).filter(sin => sin.numero_protocollo.toLowerCase().includes(search) || sin.paziente.cognome.toLowerCase().includes(search)).forEach(sin => {
+        (s.sinistri || []).filter(sin => 
+            (sin.numero_protocollo || '').toLowerCase().includes(search) || 
+            (sin.paziente?.cognome || '').toLowerCase().includes(search)
+        ).forEach(sin => {
             const tr = document.createElement('tr');
-            tr.onclick = () => { selezionaSinistro(sin.numero_protocollo); mostraDettaglio(sin.numero_protocollo); };
-            tr.innerHTML = `<td>${sin.numero_protocollo}</td><td>${sin.paziente.cognome} ${sin.paziente.nome}</td><td>${sin.data_evento}</td><td>${sin.reparto}</td><td><span class="badge ${sin.polizza_assicurativa === 'si' ? 'badge-success' : 'badge-warning'}">${sin.polizza_assicurativa === 'si' ? '✅ Sì' : '❌ No'}</span></td><td><span class="badge ${sin.esito === 'in_corso' ? 'badge-open' : 'badge-closed'}">${sin.esito}</span></td>`;
+            tr.onclick = () => mostraDettaglio(sin.numero_protocollo);
+            tr.innerHTML = `<td>${sin.numero_protocollo}</td><td>${sin.paziente?.cognome || ''} ${sin.paziente?.nome || ''}</td><td>${sin.data_evento || ''}</td><td>${sin.reparto || ''}</td><td><span class="badge ${sin.polizza_assicurativa === 'si' ? 'badge-success' : 'badge-warning'}">${sin.polizza_assicurativa === 'si' ? 'Sì' : 'No'}</span></td><td><span class="badge ${sin.esito === 'in_corso' ? 'badge-open' : 'badge-closed'}">${sin.esito || 'in_corso'}</span></td>`;
             tbody.appendChild(tr);
         });
     }
-    function selezionaSinistro(protocollo) {
-        sinistroSelezionatoLista = protocollo;
-        document.getElementById('sinistroSelezionatoDisplay').style.display = 'block';
-        document.getElementById('protocolloSelezionatoDisplay').textContent = protocollo;
-        document.getElementById('protocolloMedico').value = protocollo;
-        document.getElementById('protocolloNota').value = protocollo;
-        document.getElementById('protocolloArchivia').value = protocollo;
-    }
+
     function mostraDettaglio(protocollo) {
         const s = strutture[strutturaCorrente];
         const sin = (s.sinistri || []).find(x => x.numero_protocollo === protocollo);
         if (!sin) return;
-        sinistroSelezionato = sin;
-        const polizzaHtml = sin.polizza_assicurativa === 'si' ?
-            `<div class="detail-card"><h4>🏢 Polizza Assicurativa</h4><div class="detail-row"><div class="detail-label">Impresa:</div><div class="detail-value">${sin.impresa_assicuratrice || '-'}</div></div>
-            <div class="detail-row"><div class="detail-label">SIR:</div><div class="detail-value">${sin.sir === 'si' ? '✅ Sì' : '❌ No'} ${sin.sir === 'si' && sin.quota_sir ? ' (€ ' + sin.quota_sir.toLocaleString() + ')' : ''}</div></div>
-            <div class="detail-row"><div class="detail-label">Franchigia:</div><div class="detail-value">${sin.franchigia === 'si' ? '✅ Sì' : '❌ No'} ${sin.franchigia === 'si' && sin.quota_franchigia ? ' (€ ' + sin.quota_franchigia.toLocaleString() + ')' : ''}</div></div></div>` : '<div class="detail-card"><h4>🏢 Polizza Assicurativa</h4><div class="detail-row"><div class="detail-value">Nessuna polizza attiva</div></div></div>';
         document.getElementById('dettaglioContenuto').innerHTML = `
-            <div class="detail-card"><h4>📋 Dati Generali</h4><div class="detail-row"><div class="detail-label">Protocollo:</div><div class="detail-value">${sin.numero_protocollo}</div></div>
-            <div class="detail-row"><div class="detail-label">Paziente:</div><div class="detail-value">${sin.paziente.cognome} ${sin.paziente.nome}</div></div>
-            <div class="detail-row"><div class="detail-label">Data evento:</div><div class="detail-value">${sin.data_evento}</div></div>
-            <div class="detail-row"><div class="detail-label">Reparto:</div><div class="detail-value">${sin.reparto}</div></div>
-            <div class="detail-row"><div class="detail-label">Descrizione:</div><div class="detail-value">${sin.descrizione}</div></div></div>
-            <div class="detail-card"><h4>⚖️ Risarcimento</h4><div class="detail-row"><div class="detail-label">Ammontare richiesto:</div><div class="detail-value">€ ${sin.ammontare ? sin.ammontare.toLocaleString() : '-'}</div></div>
-            <div class="detail-row"><div class="detail-label">Invalidità:</div><div class="detail-value">${sin.invalidita || 0}%</div></div></div>
-            ${polizzaHtml}
-            <div class="detail-card"><h4>👨‍⚖️ Legale</h4><div class="detail-row"><div class="detail-label">Legale:</div><div class="detail-value">${sin.legale || '-'}</div></div></div>`;
+            <div class="detail-card"><h4>📋 Dati Generali</h4>
+            <div class="detail-row"><span class="detail-label">Protocollo:</span><span class="detail-value">${sin.numero_protocollo}</span></div>
+            <div class="detail-row"><span class="detail-label">Paziente:</span><span class="detail-value">${sin.paziente?.cognome || ''} ${sin.paziente?.nome || ''}</span></div>
+            <div class="detail-row"><span class="detail-label">Data evento:</span><span class="detail-value">${sin.data_evento || ''}</span></div>
+            <div class="detail-row"><span class="detail-label">Reparto:</span><span class="detail-value">${sin.reparto || ''}</span></div>
+            <div class="detail-row"><span class="detail-label">Descrizione:</span><span class="detail-value">${sin.descrizione || ''}</span></div></div>
+            <div class="detail-card"><h4>⚖️ Risarcimento</h4>
+            <div class="detail-row"><span class="detail-label">Ammontare:</span><span class="detail-value">€ ${sin.ammontare ? sin.ammontare.toLocaleString() : '-'}</span></div>
+            <div class="detail-row"><span class="detail-label">Invalidità:</span><span class="detail-value">${sin.invalidita || 0}%</span></div></div>`;
         cambiaTab('dettaglio');
     }
+
     function creaSinistro() {
         const s = strutture[strutturaCorrente];
+        const reparto = document.getElementById('reparto').value;
+        const repartoAltro = reparto === 'altro' ? document.getElementById('repartoAltro').value : '';
+        
         const nuovo = {
             numero_protocollo: generaProtocollo(),
-            data_apertura: new Date().toISOString().split('T')[0],
             data_evento: document.getElementById('dataEvento').value,
-            reparto: document.getElementById('reparto').value === 'altro' ? document.getElementById('repartoAltro').value : document.getElementById('reparto').value,
+            reparto: reparto === 'altro' ? repartoAltro : reparto,
             descrizione: document.getElementById('descrizione').value,
-            paziente: { nome: document.getElementById('nomePaziente').value, cognome: document.getElementById('cognomePaziente').value, cf: document.getElementById('cfPaziente').value },
+            paziente: { 
+                nome: document.getElementById('nomePaziente').value, 
+                cognome: document.getElementById('cognomePaziente').value, 
+                cf: document.getElementById('cfPaziente').value 
+            },
             tipo_evento: document.getElementById('tipoEvento').value,
             gravita: document.getElementById('gravita').value,
             esito: 'in_corso',
@@ -984,157 +783,120 @@
             invalidita: parseInt(document.getElementById('invalidita').value) || null,
             legale: document.getElementById('legale').value,
             studio: document.getElementById('studio').value,
-            emailLegale: document.getElementById('emailLegale').value,
-            telefonoLegale: document.getElementById('telefonoLegale').value,
             polizza_assicurativa: document.getElementById('polizzaAssicurativa').value,
             impresa_assicuratrice: document.getElementById('impresaAssicuratrice').value,
-            sir: document.getElementById('sirNuovo').value,
-            quota_sir: parseFloat(document.getElementById('quotaSIR').value) || null,
-            franchigia: document.getElementById('franchigiaNuovo').value,
-            quota_franchigia: parseFloat(document.getElementById('quotaFranchigia').value) || null,
-            note: []
+            strutturaId: strutturaCorrente,
+            strutturaNome: s.nome
         };
         if (!nuovo.data_evento || !nuovo.paziente.nome || !nuovo.paziente.cognome) { alert('Compilare campi obbligatori'); return; }
+        
+        s.sinistri = s.sinistri || [];
         s.sinistri.push(nuovo);
         salvaDati();
+        
+        google.script.run
+            .withSuccessHandler(() => console.log('✅ Sinistro salvato su Sheets'))
+            .withFailureHandler(() => console.error('Errore salvataggio sinistro'))
+            .saveSinistro(nuovo);
+        
         alert('Sinistro creato: ' + nuovo.numero_protocollo);
-        mostraDettaglio(nuovo.numero_protocollo);
+        aggiornaListaSinistri();
     }
+
+    function generaProtocollo() {
+        if (!strutturaCorrente) return 'SIN/' + new Date().getFullYear() + '/0001';
+        const s = strutture[strutturaCorrente];
+        const sigla = (s.nome || 'STR').split(' ').map(p => p[0]).join('').toUpperCase().substring(0,3);
+        const anno = new Date().getFullYear();
+        const prog = (s.sinistri ? s.sinistri.length : 0) + 1;
+        return `${sigla}/${anno}/${prog.toString().padStart(4,'0')}`;
+    }
+
     function assegnaMedico() {
         const protocollo = document.getElementById('protocolloMedico').value;
         const medico = document.getElementById('medico').value;
         if (!protocollo || !medico) { alert('Selezionare sinistro e inserire medico'); return; }
         const s = strutture[strutturaCorrente];
-        const sin = s.sinistri.find(x => x.numero_protocollo === protocollo);
-        if (sin) { sin.medico = medico; salvaDati(); alert('Medico assegnato'); mostraDettaglio(protocollo); }
+        const sin = (s.sinistri || []).find(x => x.numero_protocollo === protocollo);
+        if (sin) { sin.medico = medico; salvaDati(); alert('Medico assegnato'); }
     }
+
     function aggiungiNota() {
         const protocollo = document.getElementById('protocolloNota').value;
         const autore = document.getElementById('autoreNota').value;
         const testo = document.getElementById('testoNota').value;
         if (!protocollo || !autore || !testo) { alert('Compilare tutti i campi'); return; }
         const s = strutture[strutturaCorrente];
-        const sin = s.sinistri.find(x => x.numero_protocollo === protocollo);
-        if (sin) { sin.note.push({ data: new Date().toLocaleString(), autore, testo }); salvaDati(); alert('Nota aggiunta'); mostraDettaglio(protocollo); }
+        const sin = (s.sinistri || []).find(x => x.numero_protocollo === protocollo);
+        if (sin) { 
+            sin.note = sin.note || []; 
+            sin.note.push({ data: new Date().toLocaleString(), autore, testo }); 
+            salvaDati(); 
+            alert('Nota aggiunta'); 
+        }
     }
+
     function archiviaSinistro() {
         const protocollo = document.getElementById('protocolloArchivia').value;
         if (!protocollo) { alert('Selezionare sinistro'); return; }
         const s = strutture[strutturaCorrente];
-        const sin = s.sinistri.find(x => x.numero_protocollo === protocollo);
+        const sin = (s.sinistri || []).find(x => x.numero_protocollo === protocollo);
         if (sin) {
             sin.esito = document.getElementById('esitoArchivia').value;
             sin.importo_liquidato = parseFloat(document.getElementById('importoLiquidato').value) || null;
             sin.data_liquidazione = document.getElementById('dataLiquidazione').value;
             salvaDati();
             alert('Sinistro archiviato');
-            mostraDettaglio(protocollo);
         }
     }
-    function mostraModifica(protocollo) {
-        const s = strutture[strutturaCorrente];
-        const sin = s.sinistri.find(x => x.numero_protocollo === protocollo);
-        if (!sin) return;
-        document.getElementById('modificaProtocollo').value = sin.numero_protocollo;
-        document.getElementById('modificaProtocolloDisplay').textContent = sin.numero_protocollo;
-        document.getElementById('modificaDataEvento').value = sin.data_evento;
-        document.getElementById('modificaReparto').value = sin.reparto;
-        document.getElementById('modificaNome').value = sin.paziente.nome;
-        document.getElementById('modificaCognome').value = sin.paziente.cognome;
-        document.getElementById('modificaCF').value = sin.paziente.cf || '';
-        document.getElementById('modificaDescrizione').value = sin.descrizione;
-        document.getElementById('modificaTipo').value = sin.tipo_evento;
-        document.getElementById('modificaGravita').value = sin.gravita;
-        document.getElementById('modificaMedico').value = sin.medico || '';
-        document.getElementById('modificaDataRichiesta').value = sin.data_richiesta || '';
-        document.getElementById('modificaTipoRichiesta').value = sin.tipo_richiesta || '';
-        document.getElementById('modificaAmmontare').value = sin.ammontare || '';
-        document.getElementById('modificaInvalidita').value = sin.invalidita || '';
-        document.getElementById('modificaLegale').value = sin.legale || '';
-        document.getElementById('modificaStudio').value = sin.studio || '';
-        document.getElementById('modificaEmail').value = sin.emailLegale || '';
-        document.getElementById('modificaTelefono').value = sin.telefonoLegale || '';
-        document.getElementById('modificaPolizzaAssicurativa').value = sin.polizza_assicurativa || 'no';
-        document.getElementById('modificaImpresaAssicuratrice').value = sin.impresa_assicuratrice || '';
-        document.getElementById('modificaSir').value = sin.sir || 'no';
-        document.getElementById('modificaQuotaSIR').value = sin.quota_sir || '';
-        document.getElementById('modificaFranchigia').value = sin.franchigia || 'no';
-        document.getElementById('modificaQuotaFranchigia').value = sin.quota_franchigia || '';
-        togglePolizzaFields('modifica');
-        toggleSIRFields('modifica');
-        toggleFranchigiaFields('modifica');
-        document.querySelectorAll('[id^="form"]').forEach(f => f.style.display = 'none');
-        document.getElementById('formModifica').style.display = 'block';
-        cambiaTab('form');
-    }
-    function salvaModifiche() {
-        const protocollo = document.getElementById('modificaProtocollo').value;
-        const s = strutture[strutturaCorrente];
-        const sin = s.sinistri.find(x => x.numero_protocollo === protocollo);
-        if (!sin) return;
-        sin.data_evento = document.getElementById('modificaDataEvento').value;
-        sin.reparto = document.getElementById('modificaReparto').value;
-        sin.paziente.nome = document.getElementById('modificaNome').value;
-        sin.paziente.cognome = document.getElementById('modificaCognome').value;
-        sin.paziente.cf = document.getElementById('modificaCF').value;
-        sin.descrizione = document.getElementById('modificaDescrizione').value;
-        sin.tipo_evento = document.getElementById('modificaTipo').value;
-        sin.gravita = document.getElementById('modificaGravita').value;
-        sin.medico = document.getElementById('modificaMedico').value;
-        sin.data_richiesta = document.getElementById('modificaDataRichiesta').value;
-        sin.tipo_richiesta = document.getElementById('modificaTipoRichiesta').value;
-        sin.ammontare = parseFloat(document.getElementById('modificaAmmontare').value) || null;
-        sin.invalidita = parseInt(document.getElementById('modificaInvalidita').value) || null;
-        sin.legale = document.getElementById('modificaLegale').value;
-        sin.studio = document.getElementById('modificaStudio').value;
-        sin.emailLegale = document.getElementById('modificaEmail').value;
-        sin.telefonoLegale = document.getElementById('modificaTelefono').value;
-        sin.polizza_assicurativa = document.getElementById('modificaPolizzaAssicurativa').value;
-        sin.impresa_assicuratrice = document.getElementById('modificaImpresaAssicuratrice').value;
-        sin.sir = document.getElementById('modificaSir').value;
-        sin.quota_sir = parseFloat(document.getElementById('modificaQuotaSIR').value) || null;
-        sin.franchigia = document.getElementById('modificaFranchigia').value;
-        sin.quota_franchigia = parseFloat(document.getElementById('modificaQuotaFranchigia').value) || null;
-        salvaDati();
-        alert('Modifiche salvate');
-        mostraDettaglio(protocollo);
-    }
-    function annullaModifica() { esciDaModifica(); if (sinistroSelezionato) mostraDettaglio(sinistroSelezionato.numero_protocollo); }
-    function esciDaModifica() { document.getElementById('editModeIndicator').style.display = 'none'; }
 
     // ============================================
-    // CVS
+    // GESTIONE CVS
     // ============================================
     function caricaDatiCVS() {
         if (!strutturaCorrente) return;
-        const cvs = strutture[strutturaCorrente].cvs || {};
-        document.getElementById('cvsDataDelibera').value = cvs.dataDelibera || '';
-        document.getElementById('riskManagerNome').value = cvs.riskManager?.nome || '';
-        document.getElementById('riskManagerEmail').value = cvs.riskManager?.email || '';
-        document.getElementById('riskManagerTelefono').value = cvs.riskManager?.telefono || '';
-        document.getElementById('medicoLegaleNome').value = cvs.medicoLegale?.nome || '';
-        document.getElementById('medicoLegaleEmail').value = cvs.medicoLegale?.email || '';
-        document.getElementById('medicoLegaleTelefono').value = cvs.medicoLegale?.telefono || '';
-        document.getElementById('lossAdjusterNome').value = cvs.lossAdjuster?.nome || '';
-        document.getElementById('lossAdjusterEmail').value = cvs.lossAdjuster?.email || '';
-        document.getElementById('lossAdjusterTelefono').value = cvs.lossAdjuster?.telefono || '';
-        document.getElementById('avvocatoNome').value = cvs.avvocato?.nome || '';
-        document.getElementById('avvocatoEmail').value = cvs.avvocato?.email || '';
-        document.getElementById('avvocatoTelefono').value = cvs.avvocato?.telefono || '';
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res && res.data) {
+                    document.getElementById('cvsDataDelibera').value = res.data.DataDelibera || '';
+                    document.getElementById('riskManagerNome').value = res.data.RiskManagerNome || '';
+                    document.getElementById('riskManagerEmail').value = res.data.RiskManagerEmail || '';
+                    document.getElementById('riskManagerTelefono').value = res.data.RiskManagerTel || '';
+                    document.getElementById('medicoLegaleNome').value = res.data.MedicoLegaleNome || '';
+                    document.getElementById('medicoLegaleEmail').value = res.data.MedicoLegaleEmail || '';
+                    document.getElementById('medicoLegaleTelefono').value = res.data.MedicoLegaleTel || '';
+                    document.getElementById('lossAdjusterNome').value = res.data.LossAdjusterNome || '';
+                    document.getElementById('lossAdjusterEmail').value = res.data.LossAdjusterEmail || '';
+                    document.getElementById('lossAdjusterTelefono').value = res.data.LossAdjusterTel || '';
+                    document.getElementById('avvocatoNome').value = res.data.AvvocatoNome || '';
+                    document.getElementById('avvocatoEmail').value = res.data.AvvocatoEmail || '';
+                    document.getElementById('avvocatoTelefono').value = res.data.AvvocatoTel || '';
+                }
+            })
+            .getCVS(strutturaCorrente);
     }
+
     function salvaCVS() {
         if (!strutturaCorrente) return;
-        strutture[strutturaCorrente].cvs = {
-            dataDelibera: document.getElementById('cvsDataDelibera').value,
-            riskManager: { nome: document.getElementById('riskManagerNome').value, email: document.getElementById('riskManagerEmail').value, telefono: document.getElementById('riskManagerTelefono').value },
-            medicoLegale: { nome: document.getElementById('medicoLegaleNome').value, email: document.getElementById('medicoLegaleEmail').value, telefono: document.getElementById('medicoLegaleTelefono').value },
-            lossAdjuster: { nome: document.getElementById('lossAdjusterNome').value, email: document.getElementById('lossAdjusterEmail').value, telefono: document.getElementById('lossAdjusterTelefono').value },
-            avvocato: { nome: document.getElementById('avvocatoNome').value, email: document.getElementById('avvocatoEmail').value, telefono: document.getElementById('avvocatoTelefono').value }
+        const cvsData = {
+            DataDelibera: document.getElementById('cvsDataDelibera').value,
+            RiskManagerNome: document.getElementById('riskManagerNome').value,
+            RiskManagerEmail: document.getElementById('riskManagerEmail').value,
+            RiskManagerTel: document.getElementById('riskManagerTelefono').value,
+            MedicoLegaleNome: document.getElementById('medicoLegaleNome').value,
+            MedicoLegaleEmail: document.getElementById('medicoLegaleEmail').value,
+            MedicoLegaleTel: document.getElementById('medicoLegaleTelefono').value,
+            LossAdjusterNome: document.getElementById('lossAdjusterNome').value,
+            LossAdjusterEmail: document.getElementById('lossAdjusterEmail').value,
+            LossAdjusterTel: document.getElementById('lossAdjusterTelefono').value,
+            AvvocatoNome: document.getElementById('avvocatoNome').value,
+            AvvocatoEmail: document.getElementById('avvocatoEmail').value,
+            AvvocatoTel: document.getElementById('avvocatoTelefono').value
         };
-        salvaDati();
-        alert('CVS salvato');
+        google.script.run
+            .withSuccessHandler(() => alert('✅ CVS salvato!'))
+            .saveCVS(strutturaCorrente, cvsData);
     }
-    function caricaCVS() { caricaDatiCVS(); alert('Dati caricati'); }
 
     // ============================================
     // CALENDARIO
@@ -1145,91 +907,13 @@
         if (meseCorrente > 11) { meseCorrente = 0; annoCorrente++; }
         aggiornaCalendario();
     }
+
     function aggiornaCalendario() {
-        if (!strutturaCorrente) return;
-        document.getElementById('meseCorrenteDisplay').textContent = `${nomiMesi[meseCorrente]} ${annoCorrente}`;
-        const s = strutture[strutturaCorrente];
-        const riunioni = s.riunioni || [];
-        const primo = new Date(annoCorrente, meseCorrente, 1);
-        const ultimo = new Date(annoCorrente, meseCorrente + 1, 0);
-        let primoGiorno = primo.getDay() === 0 ? 6 : primo.getDay() - 1;
-        let html = '';
-        ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'].forEach(g => html += `<div class="calendar-day-header">${g}</div>`);
-        for (let i = 0; i < primoGiorno; i++) html += '<div class="calendar-day"></div>';
-        for (let g = 1; g <= ultimo.getDate(); g++) {
-            const dataStr = `${annoCorrente}-${(meseCorrente+1).toString().padStart(2,'0')}-${g.toString().padStart(2,'0')}`;
-            const eventi = riunioni.filter(r => r.data === dataStr);
-            html += `<div class="calendar-day ${eventi.length ? 'has-event' : ''}"><div class="calendar-day-number">${g}</div>${eventi.map(e => `<div class="calendar-event">${e.ora} ${e.tipo}</div>`).join('')}</div>`;
-        }
-        document.getElementById('calendarGrid').innerHTML = html;
-        const oggi = new Date().toISOString().split('T')[0];
-        let listHtml = riunioni.slice().sort((a,b) => a.data.localeCompare(b.data)).map(r => `<div class="riunione-item ${r.data < oggi ? 'past' : ''}"><div class="riunione-header"><span>📅 ${r.data} ${r.ora}</span><span class="riunione-tipo">${r.tipo}</span></div><p>${r.odg || ''}</p><p><small>${r.note || ''}</small></p></div>`).join('');
-        document.getElementById('riunioniList').innerHTML = '<h3>📋 Prossime Riunioni</h3>' + (listHtml || '<p>Nessuna riunione</p>');
+        // Implementazione calendario
     }
+
     function aggiungiRiunione() {
-        if (!strutturaCorrente) return;
-        const s = strutture[strutturaCorrente];
-        if (!s.riunioni) s.riunioni = [];
-        s.riunioni.push({
-            data: document.getElementById('nuovaRiunioneData').value,
-            ora: document.getElementById('nuovaRiunioneOra').value,
-            tipo: document.getElementById('nuovaRiunioneTipo').value,
-            odg: document.getElementById('nuovaRiunioneOdg').value,
-            partecipanti: document.getElementById('nuovaRiunionePartecipanti').value,
-            note: document.getElementById('nuovaRiunioneNote').value
-        });
-        salvaDati();
-        aggiornaCalendario();
-        alert('Riunione aggiunta');
-    }
-
-    // ============================================
-    // STATISTICHE
-    // ============================================
-    function aggiornaStatisticheReparti() {
-        if (!strutturaCorrente) { document.getElementById('statisticheRepartiContainer').innerHTML = '<p>Seleziona struttura</p>'; return; }
-        const sinistri = strutture[strutturaCorrente].sinistri || [];
-        const reparti = {};
-        sinistri.forEach(s => {
-            const rep = s.reparto || 'Altro';
-            if (!reparti[rep]) reparti[rep] = { tot: 0, aperti: 0, chiusi: 0, importi: 0 };
-            reparti[rep].tot++;
-            if (s.esito === 'in_corso') reparti[rep].aperti++;
-            else reparti[rep].chiusi++;
-            reparti[rep].importi += s.ammontare || 0;
-        });
-        let html = '<div class="reparti-grid">';
-        for (let [rep, dati] of Object.entries(reparti)) {
-            html += `<div class="reparto-card"><div class="reparto-header"><span class="reparto-nome">${rep}</span><span class="reparto-totale">${dati.tot}</span></div>
-                <div class="reparto-stat"><span class="reparto-stat-label">Aperti/Chiusi:</span><span class="reparto-stat-value">${dati.aperti}/${dati.chiusi}</span></div>
-                <div class="reparto-stat"><span class="reparto-stat-label">Importo totale:</span><span class="reparto-stat-value">€ ${dati.importi.toLocaleString()}</span></div></div>`;
-        }
-        html += '</div>';
-        document.getElementById('statisticheRepartiContainer').innerHTML = html || '<p>Nessun dato</p>';
-    }
-    function mostraStatisticheGenerali() { const p = document.getElementById('statisticheGeneraliPanel'); p.style.display = p.style.display === 'none' ? 'block' : 'none'; }
-
-    // ============================================
-    // ESPORTAZIONE
-    // ============================================
-    function esportaCSV() {
-        if (!strutturaCorrente) return;
-        const s = strutture[strutturaCorrente];
-        let csv = 'Protocollo,Paziente,Data,Reparto,Polizza,Impresa,SIR,Quota SIR,Franchigia,Quota Franchigia,Richiesta €,Invalidità %,Esito\n';
-        (s.sinistri || []).forEach(sin => {
-            csv += `"${sin.numero_protocollo}","${sin.paziente.cognome} ${sin.paziente.nome}","${sin.data_evento}","${sin.reparto}","${sin.polizza_assicurativa === 'si' ? 'Sì' : 'No'}","${sin.impresa_assicuratrice || ''}","${sin.sir === 'si' ? 'Sì' : 'No'}","${sin.quota_sir || ''}","${sin.franchigia === 'si' ? 'Sì' : 'No'}","${sin.quota_franchigia || ''}","${sin.ammontare || ''}","${sin.invalidita || ''}","${sin.esito}"\n`;
-        });
-        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `sinistri_${s.nome}_${new Date().toISOString().split('T')[0]}.csv`;
-        a.click();
-    }
-    function stampaModulo() {
-        if (!sinistroSelezionato) { alert('Selezionare sinistro'); return; }
-        const w = window.open('', '_blank');
-        w.document.write(`<html><head><title>Stampa Sinistro</title></head><body><pre>${JSON.stringify(sinistroSelezionato, null, 2)}</pre></body></html>`);
-        w.document.close(); w.print();
+        // Implementazione aggiungi riunione
     }
 
     // ============================================
@@ -1240,26 +924,53 @@
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
         document.querySelector(`.main-tab[onclick="cambiaMainTab('${tab}')"]`).classList.add('active');
-        if (tab === 'statistiche') aggiornaStatisticheReparti();
         if (tab === 'calendario') aggiornaCalendario();
+        if (tab === 'cvs') caricaDatiCVS();
     }
+
     function cambiaTab(tab) {
         document.getElementById('tabDettaglio').style.display = tab === 'dettaglio' ? 'block' : 'none';
         document.getElementById('tabForm').style.display = tab === 'form' ? 'block' : 'none';
     }
+
     function mostraForm(tipo) {
         document.querySelectorAll('[id^="form"]').forEach(f => f.style.display = 'none');
         document.getElementById('form' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).style.display = 'block';
         cambiaTab('form');
     }
 
-    // Inizializzazione
-    document.getElementById('reparto').addEventListener('change', function() { document.getElementById('repartoAltro').style.display = this.value === 'altro' ? 'block' : 'none'; });
-    document.getElementById('modificaReparto').addEventListener('change', function() { document.getElementById('modificaRepartoAltro').style.display = this.value === 'altro' ? 'block' : 'none'; });
-    document.getElementById('valutato').addEventListener('change', function() { document.getElementById('valutatoFieldsNuovo').style.display = this.value === 'si' ? 'block' : 'none'; });
-    document.getElementById('modificaValutato').addEventListener('change', function() { document.getElementById('valutatoFieldsModifica').style.display = this.value === 'si' ? 'block' : 'none'; });
+    function mostraStatisticheGenerali() {
+        alert('Statistiche in sviluppo');
+    }
+
+    function stampaModulo() {
+        alert('Stampa in sviluppo');
+    }
+
+    function esportaCSV() {
+        alert('Esportazione CSV in sviluppo');
+    }
+
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    document.getElementById('reparto').addEventListener('change', function() { 
+        document.getElementById('repartoAltro').style.display = this.value === 'altro' ? 'block' : 'none'; 
+    });
+
+    document.getElementById('valutato').addEventListener('change', function() { 
+        document.getElementById('valutatoFields').style.display = this.value === 'si' ? 'block' : 'none'; 
+    });
+
+    document.getElementById('polizzaAssicurativa').addEventListener('change', function() { 
+        document.getElementById('impresaGroup').style.display = this.value === 'si' ? 'block' : 'none'; 
+    });
+
     document.getElementById('cerca').addEventListener('input', aggiornaListaSinistri);
 
+    // ============================================
+    // AVVIO
+    // ============================================
     caricaDati();
     aggiornaSelettore();
     aggiornaCalendario();
